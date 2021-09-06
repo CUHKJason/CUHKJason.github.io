@@ -2,7 +2,7 @@
 layout: post
 title: "FwordCTF 2021 Writeup"
 date: 2021-08-31T23:00:00
-draft: true
+draft: false
 categories:
  - ctf
 tags:

@@ -1,7 +1,42 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Tags - Tag - Ja5on&#39;s blog</title>
-        <link>http://CUHKJason.github.io/blog/tags/</link>
+        <link>http://CUHKJason.github.io/tags/</link>
         <description>Tags - Tag - Ja5on&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><atom:link href="http://CUHKJason.github.io/blog/tags/" rel="self" type="application/rss+xml" /></channel>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 31 Aug 2021 23:00:00 &#43;0000</lastBuildDate><atom:link href="http://CUHKJason.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>crypto</title>
+    <link>http://CUHKJason.github.io/tags/crypto/</link>
+    <pubDate>Tue, 31 Aug 2021 23:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://CUHKJason.github.io/tags/crypto/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>ctf</title>
+    <link>http://CUHKJason.github.io/tags/ctf/</link>
+    <pubDate>Tue, 31 Aug 2021 23:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://CUHKJason.github.io/tags/ctf/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>writeup</title>
+    <link>http://CUHKJason.github.io/tags/writeup/</link>
+    <pubDate>Tue, 31 Aug 2021 23:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://CUHKJason.github.io/tags/writeup/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>personal</title>
+    <link>http://CUHKJason.github.io/tags/personal/</link>
+    <pubDate>Tue, 31 Aug 2021 17:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://CUHKJason.github.io/tags/personal/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>random</title>
+    <link>http://CUHKJason.github.io/tags/random/</link>
+    <pubDate>Tue, 31 Aug 2021 17:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://CUHKJason.github.io/tags/random/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
 </rss>

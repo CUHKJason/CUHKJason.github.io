@@ -1,7 +1,7 @@
 ---
 title: "My First Post"
 date: 2021-08-31T17:00:00
-draft: true
+draft: false
 categories: 
  - random
 tags:
