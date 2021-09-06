@@ -1,0 +1,129 @@
+baseURL = "http://CUHKJason.github.io/blog/"
+# [en, zh-cn, fr, ...] determines default content language
+defaultContentLanguage = "en"
+# language code
+languageCode = "en"
+title = "Ja5on's blog"
+
+# Change the default theme to be use when building the site with Hugo
+theme = "LoveIt"
+
+[params]
+  # LoveIt theme version
+  version = "0.2.X"
+  #images = ["/images/logo.jpg"]
+  defaultTheme = "dark"
+  [params.app]
+    # optional site title override for the app when added to an iOS home screen or Android launcher
+    #title = "LoveIt"
+    
+  [params.page]
+   
+    [params.page.toc]
+      # whether to enable the table of the contents
+      enable = true
+      # LoveIt NEW | 0.2.9 whether to keep the static table of the contents in front of the post
+      keepStatic = false
+      # whether to make the table of the contents in the sidebar automatically collapsed
+      auto = true
+      
+    [params.page.code]
+      # whether to show the copy button of the code block
+      copy = true
+      # the maximum number of lines of displayed code by default
+      maxShownLines = 100
+
+      
+  [params.typeit]
+    # typing speed between each step (measured in milliseconds)
+    speed = 100
+    # blinking speed of the cursor (measured in milliseconds)
+    cursorSpeed = 1000
+    # character used for the cursor (HTML format is supported)
+    cursorChar = "|"
+    # cursor duration after typing finishing (measured in milliseconds, "-1" means unlimited)
+    duration = -1
+
+  [params.header]
+
+    [params.header.title]
+      # URL of the LOGO
+      #logo = "/images/logo.jpg"
+      # title name
+      name = ""
+      
+    [params.home.profile]
+      enable = true
+      # URL of avatar shown in home page
+      #avatarURL = "/images/logo.jpg"
+      # LoveIt CHANGED | 0.2.7 title shown in home page (HTML format is supported)
+      title = "Ja5on's blog"
+      # subtitle shown in home page
+      subtitle = "Welcome to meet the IT dog!"
+      # whether to use typeit animation for subtitle
+      typeit = true
+      # whether to show social links
+      social = true
+
+  [params.social]
+    GitHub = "CUHKJason"
+    LinkedIn = "jason-leung-2557a613b"
+    Twitter = "tiger0806051"
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    # you can add extra information before the name (HTML format is supported), such as icons
+    pre = ""
+    # you can add extra information after the name (HTML format is supported), such as icons
+    post = ""
+    name = "Posts"
+    url = "/posts/"
+    # title will be shown when you hover on this menu link
+    title = ""
+    weight = 1
+  [[menu.main]]
+    identifier = "categories"
+    pre = ""
+    post = ""
+    name = "Categories"
+    url = "/categories/"
+    title = ""
+    weight = 2
+  [[menu.main]]
+    identifier = "tags"
+    pre = ""
+    post = ""
+    name = "Tags"
+    url = "/tags/"
+    title = ""
+    weight = 3
+  [[menu.main]]
+    identifier = "tags"
+    pre = ""
+    post = ""
+    name = "Tags"
+    url = "/tags/"
+    title = ""
+    weight = 3
+  [[menu.main]]
+    identifier = "about"
+    pre = ""
+    post = ""
+    name = "About"
+    url = "/about/"
+    title = ""
+    weight = 4
+
+# Markup related configuration in Hugo
+[markup]
+  # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
+    guessSyntax = true
+    noClasses = false
+    lineNoStart = 1
+    lineNos = true
+
+[author]
+  name = "Ja5on"
