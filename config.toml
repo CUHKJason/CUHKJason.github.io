@@ -1,4 +1,4 @@
-baseURL = "http://CUHKJason.github.io/blog/"
+baseURL = "http://CUHKJason.github.io"
 # [en, zh-cn, fr, ...] determines default content language
 defaultContentLanguage = "en"
 # language code
