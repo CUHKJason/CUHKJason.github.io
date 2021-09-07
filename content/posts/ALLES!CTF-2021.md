@@ -1,5 +1,5 @@
 ---
-title: "ALLES!CTF 2021"
+title: "ALLES!CTF 2021 Writeup"
 date: 2021-09-06T14:46:10+08:00
 draft: false
 categories:
