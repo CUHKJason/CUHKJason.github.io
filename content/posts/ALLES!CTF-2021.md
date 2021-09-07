@@ -78,7 +78,7 @@ function pwd_handler_registration(form)
         }
 }
 ```
-Also, the login handling logic is under `UserLoginServlet.java` which will call `userDao.checkLogin` instead. I deployed the app and tested locally and observed a weird thing after set the debug mode that I could not login even providing a "correct" password 🤔
+Also, the login handling logic is under `UserLoginServlet.java` which will call `userDao.checkLogin` instead. I deployed the app and tested locally and observed a weird thing after set the debug mode that I could not login even providing a "correct" password 🤔  
 ![login](https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png)  
 Turns out from the `UserDAO.java`, we can notice the following vulnerable code: 
 ```
