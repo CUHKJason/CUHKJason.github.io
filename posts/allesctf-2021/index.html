@@ -182,7 +182,7 @@ function pwd_handler_registration(form)
 }
 </code></pre></td></tr></table>
 </div>
-</div><p>Also, the login handling logic is under <code>UserLoginServlet.java</code> which will call <code>userDao.checkLogin</code> instead. I deployed the app and tested locally and observed a weird thing after set the debug mode that I could not login even providing a &ldquo;correct&rdquo; password 🤔
+</div><p>Also, the login handling logic is under <code>UserLoginServlet.java</code> which will call <code>userDao.checkLogin</code> instead. I deployed the app and tested locally and observed a weird thing after set the debug mode that I could not login even providing a &ldquo;correct&rdquo; password 🤔<br>
 <img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png data-srcset="https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png, https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png 1.5x, https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png title=login><br>
 Turns out from the <code>UserDAO.java</code>, we can notice the following vulnerable code:</p>
 <div class=highlight><div class=chroma>
