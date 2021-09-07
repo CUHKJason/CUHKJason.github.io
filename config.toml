@@ -48,14 +48,14 @@ theme = "LoveIt"
 
     [params.header.title]
       # URL of the LOGO
-      #logo = "/images/logo.jpg"
+      logo = "/images/home.png"
       # title name
       name = ""
       
     [params.home.profile]
       enable = true
       # URL of avatar shown in home page
-      #avatarURL = "/images/logo.jpg"
+      avatarURL = "/images/avatar.jpg"
       # LoveIt CHANGED | 0.2.7 title shown in home page (HTML format is supported)
       title = "Ja5on's blog"
       # subtitle shown in home page

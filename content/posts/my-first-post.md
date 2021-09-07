@@ -18,4 +18,4 @@ I will share everything I want to share, CTF writeup, Red Team stuffs, or just 9
 
 
 As the first post, I would like to share a song with you :)
-[![Pretender covered by KOBASOLO & Harutya](https://img.youtube.com/vi/FmZhFMzWIGQ/0.jpg)](https://youtu.be/FmZhFMzWIGQ)
+{{< youtube FmZhFMzWIGQ >}}
