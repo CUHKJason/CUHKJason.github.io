@@ -27,7 +27,7 @@ This is the first CTF I participated after I decided to join back the CTF world.
 > `nc 52.149.135.130 4869`
 
 ### Files :  
-[leaky_blinders.py](https://github.com/MehdiBHA/FwordCTF-2021/blob/main/Leaky%20Blinders/leaky_blinders.py)
+[leaky_blinders.py](/files/Fword/leaky_blinders.py)
 
 ### Solution : 
 From the `decrypt` function below, we know that the provided ciphertext will xor with the provided key then perform the standard AES decryption.
@@ -75,7 +75,7 @@ Official writeup : [The Real Crypto Solution](https://github.com/MehdiBHA/FwordC
 > `nc 52.149.135.130 4872` 
 
 ### Files :  
-[boombastic.py](https://github.com/MehdiBHA/FwordCTF-2021/blob/main/Boombastic/boombastic.py)
+[boombastic.py](/files/Fword/boombastic.py)
 
 
 ### Solution : 

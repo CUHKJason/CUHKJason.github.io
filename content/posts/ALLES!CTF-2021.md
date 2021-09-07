@@ -79,7 +79,7 @@ function pwd_handler_registration(form)
 }
 ```
 Also, the login handling logic is under `UserLoginServlet.java` which will call `userDao.checkLogin` instead. I deployed the app and tested locally and observed a weird thing after set the debug mode that I could not login even providing a "correct" password 🤔
-![login](https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png)
+![login](https://user-images.githubusercontent.com/19466939/132283438-60a2a9f0-e80b-442f-9956-06a9b9cf85a4.png)  
 Turns out from the `UserDAO.java`, we can notice the following vulnerable code: 
 ```
 // User password in storage is only stored as md5, we should hash it again
@@ -167,17 +167,17 @@ while (rangeEntropy) {
 This challenge reminds me on some algorithm relating to finding substrings or something else. Also, as we know that the flag is in the format of `ALLES!{...}`, we do know the actually entropy from [0..7] of `/flag`.
 My first thought is to identify the duplicated character by going throught different sections of the file and observing the change of the entropy. Below I will try to illustrate the idea step by step:  
 1. First, `CL` and `CR` are 0 and `Entropy` is 1 obviously.  
-![a](https://user-images.githubusercontent.com/19466939/132295104-23b4e565-81a6-4ddd-93c0-abcce09922df.png)
+![a](https://user-images.githubusercontent.com/19466939/132295104-23b4e565-81a6-4ddd-93c0-abcce09922df.png)  
 2. Next, `CR` is increased by 1 and `Entropy` is also increased by 1, meaning a new character is found.  
-![b](https://user-images.githubusercontent.com/19466939/132295109-0323f323-4a4a-46fa-9499-6e1d5fc55165.png)
+![b](https://user-images.githubusercontent.com/19466939/132295109-0323f323-4a4a-46fa-9499-6e1d5fc55165.png)  
 3. Next, `CR` is increased by 1 again but `Entropy` remain unchanged. This implies a duplicated character is found.  
-![c](https://user-images.githubusercontent.com/19466939/132295112-bd997eeb-c9b5-40a6-a5eb-5850bfed49e5.png)
+![c](https://user-images.githubusercontent.com/19466939/132295112-bd997eeb-c9b5-40a6-a5eb-5850bfed49e5.png)  
 3.5 You can see the `Entropy` should be increased by 1 if there's no duplicated character.  
-![d](https://user-images.githubusercontent.com/19466939/132295113-061e88e9-2121-42a9-9cd6-cf80cd917d9c.png)
+![d](https://user-images.githubusercontent.com/19466939/132295113-061e88e9-2121-42a9-9cd6-cf80cd917d9c.png)  
 4. We fix `CR` and increase `CL` by 1. The `Entropy` should decrease by 1.  
-![e](https://user-images.githubusercontent.com/19466939/132295115-52b969c8-7ca2-450c-bcfb-5968f04b8b2b.png)
+![e](https://user-images.githubusercontent.com/19466939/132295115-52b969c8-7ca2-450c-bcfb-5968f04b8b2b.png)  
 5. Next, `CL` is increased by 1 but `Entropy` remain unchanged. This implies we found the duplicate character position.  
-![f](https://user-images.githubusercontent.com/19466939/132295118-24584e37-ef8d-49d3-9b6b-25fd1b1866d0.png)
+![f](https://user-images.githubusercontent.com/19466939/132295118-24584e37-ef8d-49d3-9b6b-25fd1b1866d0.png)  
 
 The whole process is illustrated by the flowchart below, with my PoC to find the duplicated character position (🚨poor code warning🚨):
 ![flow](https://user-images.githubusercontent.com/19466939/132293423-1c6e6e58-64f6-45c3-853c-4b8b6e1ebdf5.png)
@@ -282,6 +282,7 @@ for i in range(i0, length):
     print()
 ```
 _During the competition, Mystiz implemented another PoC with request.session and binary search in order to improve the efficiency of recovering the content. For the real solution, please wait for the writeup from Mystiz and I will update the link here later._  
+
 In particular, there is a GET request for getting the flag ( btw we were very excited after retrieving the first line of this code segment but then received the message `go away`) and basically we tried to crack all combination of the possible hashes to obtain the pass `e7552d9b7c9a01fad1c37e452af4ac95    md5    gibflag`
 ```
 router.get("/flag", async (ctx) => {
