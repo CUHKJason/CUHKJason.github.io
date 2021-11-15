@@ -16,7 +16,7 @@
 <meta name=application-name content="Ja5on's blog">
 <meta name=apple-mobile-web-app-title content="Ja5on's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
 <link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":1915,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":1909,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
 <body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
 <div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
 <div class=header-wrapper>
@@ -57,7 +57,7 @@
 <div class=toc-content id=toc-content-auto></div>
 </div><article class="page single"><h1 class="single-title animated flipInX">HKCERTCTF 2021 Writeup</h1><div class=post-meta>
 <div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Ja5on</a></span>&nbsp;<span class=post-category>included in <a href=/categories/ctf/><i class="far fa-folder fa-fw"></i>ctf</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1915 words&nbsp;
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1909 words&nbsp;
 <i class="far fa-clock fa-fw"></i>&nbsp;9 minutes&nbsp;</div>
 </div><div class="details toc" id=toc-static kept>
 <div class="details-summary toc-title">
@@ -127,8 +127,8 @@ nc chalp.hkcert21.pwnable.hk 28102</p>
 <li>There are 5 mode of operations implemented (&lsquo;ECB&rsquo;, &lsquo;CBC&rsquo;, &lsquo;CFB&rsquo;, &lsquo;OFB&rsquo; and &lsquo;CTR&rsquo;) and you can either provide data to the server for the encryption or let the server encrypting the flag, for at most 5 times per connection. But you can only use 1 mode per connection.</li>
 </ol>
 <p>If you are familiar with these operation, you may spot that the weakness is the reuse of IV&mldr; Let&rsquo;s have a look into the mode &lsquo;CFB&rsquo; and &lsquo;OFB&rsquo;:</p>
-<p>[pic of CFB]</p>
-<p>[pic of OFB]</p>
+<p><img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png data-srcset="https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 1.5x, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png title="1920px-CFB_encryption svg">
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png data-srcset="https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 1.5x, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png title="1920px-OFB_encryption svg"></p>
 <p>As we can see, the encryption procedure of CFB and OFB are actually the same. Therefore if we first provide all zero as the data to encrypt with one mode (e.g., CFB), it will return the encryption of each block itself. Then we request for the encrypted flag with another mode (e.g., OFB) and xor them together, we will get the flag!</p>
 <p>For CFB:</p>
 <div class=highlight><div class=chroma>
@@ -632,7 +632,8 @@ r.interactive()
 </code></pre></td></tr></table>
 </div>
 </div><p>FLAG : <strong>hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3rfl0ws}</strong></p>
-<p>P.S. I sent this meme to the author after solved this challenge :)</p>
+<p>P.S. I sent this meme to the author after solved this challenge :)
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png data-srcset="https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 1.5x, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png title=haha></p>
 <p>&mldr;To be updated&mldr;</p>
 </div><div class=post-footer id=post-footer>
 <div class=post-info>
