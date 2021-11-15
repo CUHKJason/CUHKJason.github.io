@@ -45,9 +45,8 @@ From the provided `chall.py`, we can observe:
 
 If you are familiar with these operation, you may spot that the weakness is the reuse of IV... Let's have a look into the mode 'CFB' and 'OFB': 
 
-[pic of CFB]
-
-[pic of OFB]
+![1920px-CFB_encryption svg](https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png)
+![1920px-OFB_encryption svg](https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png)
 
 As we can see, the encryption procedure of CFB and OFB are actually the same. Therefore if we first provide all zero as the data to encrypt with one mode (e.g., CFB), it will return the encryption of each block itself. Then we request for the encrypted flag with another mode (e.g., OFB) and xor them together, we will get the flag! 
 
@@ -330,5 +329,6 @@ r.interactive()
 FLAG : **hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3rfl0ws}**
 
 P.S. I sent this meme to the author after solved this challenge :)
+![haha](https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png)
 
 ...To be updated...
