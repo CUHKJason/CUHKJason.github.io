@@ -16,7 +16,7 @@
 <meta name=application-name content="Ja5on's blog">
 <meta name=apple-mobile-web-app-title content="Ja5on's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
 <link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":2723,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":2720,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
 <body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
 <div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
 <div class=header-wrapper>
@@ -57,7 +57,7 @@
 <div class=toc-content id=toc-content-auto></div>
 </div><article class="page single"><h1 class="single-title animated flipInX">HKCERTCTF 2021 Writeup</h1><div class=post-meta>
 <div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Ja5on</a></span>&nbsp;<span class=post-category>included in <a href=/categories/ctf/><i class="far fa-folder fa-fw"></i>ctf</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2723 words&nbsp;
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2720 words&nbsp;
 <i class="far fa-clock fa-fw"></i>&nbsp;13 minutes&nbsp;</div>
 </div><div class="details toc" id=toc-static kept>
 <div class="details-summary toc-title">
@@ -746,9 +746,9 @@ WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
     OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
 </code></pre></td></tr></table>
 </div>
-</div><p>From the <code>CONVERT</code> function, we know that it will take the input from the URL after <code>#</code> and convert to uppercase, i.e. for <code>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E</code>, it will be converted to <code>&lt;SCRIPT>ALERT('XSS')&lt;/SCRIPT></code> which is not a valid javascript as shown below:
-[pic]
-Therefore we need to find some function that is also defined in uppercase.
+</div><p>From the <code>CONVERT</code> function, we know that it will take the input from the URL after <code>#</code> and convert to uppercase, i.e. for <code>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E</code>, it will be converted to <code>&lt;SCRIPT>ALERT('XSS')&lt;/SCRIPT></code> which is not a valid javascript as shown below:<br>
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png data-srcset="https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 1.5x, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png title=babyxss></p>
+<p>Therefore we need to find some function that is also defined in uppercase.
 We can use html encoding to bypass the <code>toUpperCase</code>.</p>
 <p><strong>Solve:</strong></p>
 <div class=highlight><div class=chroma>
@@ -859,9 +859,9 @@ if (!empty($_POST)) {
 <h3 id=solution--7>Solution :</h3>
 <p>This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.<br>
 We can click the <code>See inside</code> button to view the source code of this project. By selecting the <code>Title</code>, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
-[pic1]
-[pic2]
-We can see that if we input the correct flag, the program will perform some process and check if it is equal to <code>03vx{_ihq0xhh7svtx}t{sv180x{r</code>. Therefore, by reversing the logic, we can get the flag.</p>
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png data-srcset="https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png, https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png 1.5x, https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png title=tictactoe1>
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png data-srcset="https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 1.5x, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png title=tictactoe2></p>
+<p>We can see that if we input the correct flag, the program will perform some process and check if it is equal to <code>03vx{_ihq0xhh7svtx}t{sv180x{r</code>. Therefore, by reversing the logic, we can get the flag.</p>
 <p><strong>Solve:</strong></p>
 <div class=highlight><div class=chroma>
 <table class=lntable><tr><td class=lntd>
