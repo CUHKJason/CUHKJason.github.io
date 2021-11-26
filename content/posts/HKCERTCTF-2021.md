@@ -377,8 +377,9 @@ CONVERT = () => {
     INPUT[VALUE] = decodeURI(location.hash.substr(1));
     OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
 ```
-From the `CONVERT` function, we know that it will take the input from the URL after `#` and convert to uppercase, i.e. for `http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E`, it will be converted to `<SCRIPT>ALERT('XSS')</SCRIPT>` which is not a valid javascript as shown below:
-[pic]
+From the `CONVERT` function, we know that it will take the input from the URL after `#` and convert to uppercase, i.e. for `http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E`, it will be converted to `<SCRIPT>ALERT('XSS')</SCRIPT>` which is not a valid javascript as shown below:  
+![babyxss](https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png)
+
 Therefore we need to find some function that is also defined in uppercase.
 We can use html encoding to bypass the `toUpperCase`.
 
@@ -458,8 +459,9 @@ https://scratch.mit.edu/projects/596813541/
 ### Solution : 
 This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.  
 We can click the `See inside` button to view the source code of this project. By selecting the `Title`, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
-[pic1]
-[pic2]
+![tictactoe1](https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png)
+![tictactoe2](https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png)
+
 We can see that if we input the correct flag, the program will perform some process and check if it is equal to `03vx{_ihq0xhh7svtx}t{sv180x{r`. Therefore, by reversing the logic, we can get the flag.
 
 **Solve:**  
