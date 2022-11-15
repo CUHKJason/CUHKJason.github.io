@@ -1,5 +1,5 @@
 ---
-title: "HKCERTCTF 2021 Writeup"
+title: "HKCERTCTF 2022 Writeup"
 date: 2022-11-15T17:00:10+08:00
 draft: false
 categories:
@@ -12,7 +12,7 @@ summary: "Writeup for HKCERT CTF 2022"
 ---
 
 # Background
-11 Nov 2021, 18:00 HKT — 13 Nov 2021, 18:00 HKT  
+11 Nov 2022, 18:00 HKT — 13 Nov 2022, 18:00 HKT  
 Format: Jeopardy  
 Official URL: https://ctf.hkcert.org/  
 Organisers: HKCERT, Black Bauhinia 
@@ -48,11 +48,12 @@ suggesting this folder is responsible for storing some login information, maybe 
 
 I spinned up a docker container and accessed one of the examples `spyce-2.1/www/docs/examples/login-optional.spy`. We can see a new file `spytoken-2` was created after a success login with user id `2`, and there is a cookie `_spy_login` set with the value storing in this file.
 
-![local test]()
+(![local test](https://user-images.githubusercontent.com/19466939/201954634-8eae0eb7-5178-40af-990f-cd095f11cc38.png)
 
 Through the LFI, we are able to access and retrieve the value of the session, so let's see if we could inject malicious payload to the session and gain RCE.
 
-![LFI]()
+![LFI](https://user-images.githubusercontent.com/19466939/201954716-d8ff52a1-cf4e-4684-b59d-9e43b6a58f74.png)
+
 
 Next let's try to search for the relevant code handling the session with the keyword `spytoken` and from the file `spyce-2.1/tags/_coreutil.py` we could find the relevant logic. When reviewing the code of the function `login_from_cookie`, the line of code 
 
@@ -62,7 +63,8 @@ caught my attention: it may be possible to achieve RCE via the Python pickle des
 
 A quick poc (in Python version 2.7) was developed and it worked successfully, by sending a request to the page `login-optional.spy` (`login-required.spy` would work as well) and the file containing the result of listing root directory was created.
 
-![RCE]()
+![RCE](https://user-images.githubusercontent.com/19466939/201954750-abe23232-4136-49df-8383-bbdb3c38b1d5.png)
+
 
 ```
 import pickle
