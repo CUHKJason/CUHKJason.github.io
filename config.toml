@@ -18,6 +18,8 @@ theme = "LoveIt"
     #title = "LoveIt"
     
   [params.page]
+  [params.author]
+    name = "Ja5on"
    
     [params.page.toc]
       # whether to enable the table of the contents
