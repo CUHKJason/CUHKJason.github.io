@@ -16,10 +16,10 @@ theme = "LoveIt"
   [params.app]
     # optional site title override for the app when added to an iOS home screen or Android launcher
     #title = "LoveIt"
-    
-  [params.page]
   [params.author]
     name = "Ja5on"
+  [params.page]
+
    
     [params.page.toc]
       # whether to enable the table of the contents
