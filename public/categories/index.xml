@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - Category - Ja5on&#39;s blog</title>
+        <link>http://localhost:1313/categories/</link>
+        <description>Categories - Category - Ja5on&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 02 Jul 2025 20:00:00 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>Redteam</title>
+    <link>http://localhost:1313/categories/redteam/</link>
+    <pubDate>Wed, 02 Jul 2025 20:00:00 &#43;0800</pubDate>
+    <author>Ja5on</author>
+    <guid>http://localhost:1313/categories/redteam/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Ctf</title>
+    <link>http://localhost:1313/categories/ctf/</link>
+    <pubDate>Tue, 15 Nov 2022 17:00:10 &#43;0800</pubDate>
+    <author>Ja5on</author>
+    <guid>http://localhost:1313/categories/ctf/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Random</title>
+    <link>http://localhost:1313/categories/random/</link>
+    <pubDate>Tue, 31 Aug 2021 17:00:00 &#43;0000</pubDate>
+    <author>Ja5on</author>
+    <guid>http://localhost:1313/categories/random/</guid>
+    <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

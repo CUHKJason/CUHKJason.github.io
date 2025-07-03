@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>FwordCTF 2021 Writeup - Ja5on&#39;s blog</title><meta name="Description" content=""><meta property="og:url" content="http://localhost:1313/posts/fwordctf-2021/">
+  <meta property="og:site_name" content="Ja5on&#39;s blog">
+  <meta property="og:title" content="FwordCTF 2021 Writeup">
+  <meta property="og:description" content="Writeup for FwordCTF 2021">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-31T23:00:00+00:00">
+    <meta property="article:modified_time" content="2021-08-31T23:00:00+00:00">
+    <meta property="article:tag" content="Ctf">
+    <meta property="article:tag" content="Writeup">
+    <meta property="article:tag" content="Crypto">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FwordCTF 2021 Writeup">
+  <meta name="twitter:description" content="Writeup for FwordCTF 2021">
+      <meta name="twitter:site" content="@tiger0806051">
+<meta name="application-name" content="Ja5on&#39;s blog">
+<meta name="apple-mobile-web-app-title" content="Ja5on&#39;s blog">
+<meta name="referrer" content="no-referrer" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/fwordctf-2021/" /><link rel="prev" href="http://localhost:1313/posts/my-first-post/" /><link rel="next" href="http://localhost:1313/posts/allesctf-2021/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "FwordCTF 2021 Writeup",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/fwordctf-2021\/"
+        },"genre": "posts","keywords": "ctf, writeup, crypto","wordcount":  403 ,
+        "url": "http:\/\/localhost:1313\/posts\/fwordctf-2021\/","datePublished": "2021-08-31T23:00:00+00:00","dateModified": "2021-08-31T23:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": "Ja5on"},"author": {
+                "@type": "Person",
+                "name": "Ja5on"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="" data-header-mobile=""><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('dark' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'dark' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Ja5on&#39;s blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/home.png"
+        data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x"
+        data-sizes="auto"
+        alt="/images/home.png"
+        title="/images/home.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Ja5on&#39;s blog"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/home.png"
+        data-srcset="/images/home.png, /images/home.png 1.5x, /images/home.png 2x"
+        data-sizes="auto"
+        alt="/images/home.png"
+        title="/images/home.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">FwordCTF 2021 Writeup</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Ja5on</a></span>&nbsp;<span class="post-category">included in <a href="/categories/ctf/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Ctf</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-08-31">2021-08-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;403 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#leaky-blinders---crypto-100-points">Leaky Blinders - Crypto (100 points)</a>
+      <ul>
+        <li><a href="#challenge-">Challenge :</a></li>
+        <li><a href="#files-">Files :</a></li>
+        <li><a href="#solution-">Solution :</a></li>
+      </ul>
+    </li>
+    <li><a href="#boombastic---crypto-738-points">Boombastic - Crypto (738 points)</a>
+      <ul>
+        <li><a href="#challenge--1">Challenge :</a></li>
+        <li><a href="#files--1">Files :</a></li>
+        <li><a href="#solution--1">Solution :</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="background">Background</h1>
+<p>28 Aug 2021, 01:00 HKT — 29 Aug 2021, 13:00 HKT<br>
+Format: Jeopardy<br>
+Official URL: <a href="https://ctf.fword.tech/" target="_blank" rel="noopener noreffer ">https://ctf.fword.tech/</a><br>
+Event organizers: Fword<br>
+CTFtime: <a href="https://ctftime.org/event/1405" target="_blank" rel="noopener noreffer ">https://ctftime.org/event/1405</a><br>
+This is the first CTF I participated after I decided to join back the CTF world. Only 2 simple crypto were solved, showing that there is plenty of rooooooooooooooooooom for improvement of my CTF skills.</p>
+<h1 id="challenges">Challenges</h1>
+<h2 id="leaky-blinders---crypto-100-points">Leaky Blinders - Crypto (100 points)</h2>
+<h3 id="challenge-">Challenge :</h3>
+<blockquote>
+<p>Get the flag, by order of the leaky fookin blinders..<br>
+<code>nc 52.149.135.130 4869</code></p></blockquote>
+<h3 id="files-">Files :</h3>
+<p><a href="/files/Fword/leaky_blinders.py" rel="">leaky_blinders.py</a></p>
+<h3 id="solution-">Solution :</h3>
+<p>From the <code>decrypt</code> function below, we know that the provided ciphertext will xor with the provided key then perform the standard AES decryption.</p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">def decrypt(cipher, k):
+</span></span><span class="line"><span class="cl">    aes = AES.new(k, AES.MODE_ECB)
+</span></span><span class="line"><span class="cl">    cipher = xor(cipher, k)
+</span></span><span class="line"><span class="cl">    msg = unpad(aes.decrypt(cipher), 16)
+</span></span><span class="line"><span class="cl">    return msg</span></span></code></pre></div></div>
+<p>The goal is to provide a ciphertext and key that output <strong>&ldquo;FwordCTF&rdquo;</strong> after the decryption. It is obvious that one can encrypt the word offline and provide the used ciphertext and key to obtain the flag.</p>
+<p><strong>Solve:</strong></p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">from Crypto.Cipher import AES
+</span></span><span class="line"><span class="cl">from Crypto.Util.Padding import pad, unpad
+</span></span><span class="line"><span class="cl">import sys, os, pwc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">FLAG = b&#34;FwordCTF{###############################################################}&#34;
+</span></span><span class="line"><span class="cl">key = os.urandom(32)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">def encrypt(msg):
+</span></span><span class="line"><span class="cl">    aes = AES.new(key, AES.MODE_ECB)
+</span></span><span class="line"><span class="cl">    if len(msg) % 16 != 0:
+</span></span><span class="line"><span class="cl">        msg = pad(msg, 16)
+</span></span><span class="line"><span class="cl">    cipher = aes.encrypt(msg)
+</span></span><span class="line"><span class="cl">    cipher = xor(cipher, key)
+</span></span><span class="line"><span class="cl">    return cipher
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">io = pwn.remote(&#34;52.149.135.130&#34;, 4869)
+</span></span><span class="line"><span class="cl">io.recvuntil(b&#39;&gt; &#39;)
+</span></span><span class="line"><span class="cl">io.sendline(&#39;2&#39;)
+</span></span><span class="line"><span class="cl">io.sendline(key.hex())
+</span></span><span class="line"><span class="cl">io.sendline(encrypt(FLAG).hex())
+</span></span><span class="line"><span class="cl">io.interactive()</span></span></code></pre></div></div>
+<p>FLAG : <strong>FwordCTF{N3v3r_x0r_w1thout_r4nd0m1s1ng_th3_k3y_0r_m4yb3_s3cur3_y0ur_c0d3}</strong></p>
+<p>Official writeup : <a href="https://github.com/MehdiBHA/FwordCTF-2021/tree/main/Leaky%20Blinders" target="_blank" rel="noopener noreffer ">The Real Crypto Solution</a></p>
+<h2 id="boombastic---crypto-738-points">Boombastic - Crypto (738 points)</h2>
+<h3 id="challenge--1">Challenge :</h3>
+<blockquote>
+<p>A pen and a paper, thats&rsquo;s all you need to watch the movie.<br>
+<code>nc 52.149.135.130 4872</code></p></blockquote>
+<h3 id="files--1">Files :</h3>
+<p><a href="/files/Fword/boombastic.py" rel="">boombastic.py</a></p>
+<h3 id="solution--1">Solution :</h3>
+<p>By doing some maths we can recover the value of <code>secret</code> from knowing <code>s</code>, <code>r</code> and <code>p</code>, as shown below (x is secret):<br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537192-9a076340-813e-4200-9d46-4de54dede1d7.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537192-9a076340-813e-4200-9d46-4de54dede1d7.png, https://user-images.githubusercontent.com/19466939/131537192-9a076340-813e-4200-9d46-4de54dede1d7.png 1.5x, https://user-images.githubusercontent.com/19466939/131537192-9a076340-813e-4200-9d46-4de54dede1d7.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537192-9a076340-813e-4200-9d46-4de54dede1d7.png"
+        title="equation1" /><br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537206-2ae07e20-d713-4fa0-a9cc-89ac7ce735e1.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537206-2ae07e20-d713-4fa0-a9cc-89ac7ce735e1.png, https://user-images.githubusercontent.com/19466939/131537206-2ae07e20-d713-4fa0-a9cc-89ac7ce735e1.png 1.5x, https://user-images.githubusercontent.com/19466939/131537206-2ae07e20-d713-4fa0-a9cc-89ac7ce735e1.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537206-2ae07e20-d713-4fa0-a9cc-89ac7ce735e1.png"
+        title="equation2" /><br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537210-8bec7101-c64a-4a27-b59e-c38c9b415801.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537210-8bec7101-c64a-4a27-b59e-c38c9b415801.png, https://user-images.githubusercontent.com/19466939/131537210-8bec7101-c64a-4a27-b59e-c38c9b415801.png 1.5x, https://user-images.githubusercontent.com/19466939/131537210-8bec7101-c64a-4a27-b59e-c38c9b415801.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537210-8bec7101-c64a-4a27-b59e-c38c9b415801.png"
+        title="equation3" /><br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537216-7f313e67-3c60-4799-af4d-7682121ebe42.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537216-7f313e67-3c60-4799-af4d-7682121ebe42.png, https://user-images.githubusercontent.com/19466939/131537216-7f313e67-3c60-4799-af4d-7682121ebe42.png 1.5x, https://user-images.githubusercontent.com/19466939/131537216-7f313e67-3c60-4799-af4d-7682121ebe42.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537216-7f313e67-3c60-4799-af4d-7682121ebe42.png"
+        title="equation4" /><br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537227-bb9c1081-eed2-43e9-aa28-7cbe5aa62ed6.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537227-bb9c1081-eed2-43e9-aa28-7cbe5aa62ed6.png, https://user-images.githubusercontent.com/19466939/131537227-bb9c1081-eed2-43e9-aa28-7cbe5aa62ed6.png 1.5x, https://user-images.githubusercontent.com/19466939/131537227-bb9c1081-eed2-43e9-aa28-7cbe5aa62ed6.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537227-bb9c1081-eed2-43e9-aa28-7cbe5aa62ed6.png"
+        title="equation5" /><br>
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://user-images.githubusercontent.com/19466939/131537235-6e2b5446-81f0-45ae-bf97-ebc526397843.png"
+        data-srcset="https://user-images.githubusercontent.com/19466939/131537235-6e2b5446-81f0-45ae-bf97-ebc526397843.png, https://user-images.githubusercontent.com/19466939/131537235-6e2b5446-81f0-45ae-bf97-ebc526397843.png 1.5x, https://user-images.githubusercontent.com/19466939/131537235-6e2b5446-81f0-45ae-bf97-ebc526397843.png 2x"
+        data-sizes="auto"
+        alt="https://user-images.githubusercontent.com/19466939/131537235-6e2b5446-81f0-45ae-bf97-ebc526397843.png"
+        title="equation6" /><br>
+Therefore we can just &ldquo;Get a ticket&rdquo; first, calculate the <code>secret</code> and &ldquo;Enter Cinema&rdquo;!</p>
+<p><strong>Solve:</strong></p>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">from</span> <span class="n">Crypto</span><span class="o">.</span><span class="n">Util</span><span class="o">.</span><span class="n">number</span> <span class="n">import</span> <span class="n">inverse</span>
+</span></span><span class="line"><span class="cl"><span class="n">from</span> <span class="n">json</span> <span class="n">import</span> <span class="n">loads</span><span class="p">,</span> <span class="n">dumps</span>
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="n">hashlib</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="k">signal</span><span class="p">,</span> <span class="n">pwn</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">find_secret</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span> <span class="o">=</span> <span class="ne">int</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="ne">int</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="o">=</span> <span class="ne">int</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">secret</span> <span class="o">=</span> <span class="p">(</span><span class="n">inverse</span><span class="p">((</span><span class="n">r</span><span class="o">*</span><span class="n">inverse</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="n">s</span><span class="p">),</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span> <span class="o">%</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">secret</span><span class="p">,</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_ticket</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="ne">int</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span><span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span> <span class="o">=</span> <span class="p">((</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">inverse</span><span class="p">(</span><span class="n">secret</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">)))</span> <span class="o">%</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">inverse</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">p</span><span class="p">)))</span> <span class="o">%</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">hex</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="n">hex</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">hex</span><span class="p">(</span><span class="n">p</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span> <span class="o">=</span> <span class="n">pwn</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="s2">&#34;52.149.135.130&#34;</span><span class="p">,</span> <span class="mi">4872</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Your ticket : &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ticket</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;}&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Enter the magic word : &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">secret</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">find_secret</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="n">ticket</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ans</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">get_ticket</span><span class="p">(</span><span class="s2">&#34;Boombastic&#34;</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="ne">int</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">ans</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">recvline</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></span></span></code></pre></div></div>
+<p>FLAG : <strong>FwordCTF{4ct_l1k3_a_V1P_4nd_b3c0m3_a_V1P}</strong></p>
+<p>Official writeup : <a href="https://github.com/MehdiBHA/FwordCTF-2021/tree/main/Boombastic" target="_blank" rel="noopener noreffer ">https://github.com/MehdiBHA/FwordCTF-2021/tree/main/Boombastic</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-08-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ctf/">Ctf</a>,&nbsp;<a href="/tags/writeup/">Writeup</a>,&nbsp;<a href="/tags/crypto/">Crypto</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/my-first-post/" class="prev" rel="prev" title="My First Post"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>My First Post</a>
+            <a href="/posts/allesctf-2021/" class="next" rel="next" title="ALLES!CTF 2021 Writeup">ALLES!CTF 2021 Writeup<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.145.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Ja5on</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script>window.config={"comment":{}};</script><script src="/js/theme.min.js"></script></body>
+</html>
